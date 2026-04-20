@@ -110,8 +110,16 @@ class UserController extends AbstractController
                 if (null === $userId) {
                     throw new \RuntimeException('User created but no user ID returned from Auth0.');
                 }
+                $email = $createUserRequest->getEmail();
+                if (null === $email) {
+                    throw new \RuntimeException('User created but email address is missing.');
+                }
                 $ticketUrl = $userRepository->createPasswordChangeTicket($userId);
-                $userMailer->sendPasswordSetupEmail((string) $createUserRequest->getEmail(), $ticketUrl);
+                try {
+                    $userMailer->sendPasswordSetupEmail($email, $ticketUrl);
+                } catch (\Throwable $mailException) {
+                    $this->addFlash('warning', 'app.admin.user.create.flash.email_failed');
+                }
                 $this->addFlash('success', 'app.admin.user.create.flash.user_created');
 
                 return $this->redirect($adminUrlGenerator->setRoute('user_index')->generateUrl());

@@ -19,6 +19,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 class UserRepository implements Auth0RepositoryInterface
 {
     public const MAX_PER_PAGE = 10;
+    private const PASSWORD_TICKET_TTL_SECONDS = 86400;
 
     private Client $client;
     private EventDispatcherInterface $eventDispatcher;
@@ -115,7 +116,7 @@ class UserRepository implements Auth0RepositoryInterface
 
         $options['body']['user_id'] = $userId;
         $options['body']['mark_email_as_verified'] = true;
-        $options['body']['ttl_sec'] = 86400;
+        $options['body']['ttl_sec'] = self::PASSWORD_TICKET_TTL_SECONDS;
 
         $response = $this->client->postWithResponse(
             '/api/v2/tickets/password-change',

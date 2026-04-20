@@ -89,7 +89,11 @@ class Client
         $response = $this->serializer->deserialize($body, $responseClass, 'json');
 
         if (!$response instanceof ResponseInterface) {
-            throw new \Exception('Incorrect response model returned.');
+            throw new \Exception(sprintf(
+                'Expected instance of %s, got %s.',
+                ResponseInterface::class,
+                get_debug_type($response)
+            ));
         }
 
         return $response;

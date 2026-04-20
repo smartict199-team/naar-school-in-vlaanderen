@@ -42,6 +42,7 @@ app:
                 flash:
                     user_exists: Er bestaat al een gebruiker met deze gegevens.
                     user_created: Gebruiker aangemaakt.
+                    email_failed: Gebruiker aangemaakt, maar het versturen van de instellingsmail is mislukt. Gebruik de wachtwoord-herinstellen functie om de gebruiker manueel een mail te sturen.
                 roles:
                     super_admin: Super admin
                     group_admin: Groep admin (beheerders / opleidingen / cijfers)
