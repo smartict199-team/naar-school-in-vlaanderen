@@ -56,6 +56,48 @@ class Client
     /**
      * @param string[][] $options
      */
+    public function postWithResponse(string $uri, ?RequestInterface $model, string $responseClass, array $options = [], bool $requiresClientId = false): ResponseInterface
+    {
+        $headers = [
+            'content-type' => 'application/json',
+            'Authorization' => sprintf('Bearer %s', $this->getAccessToken()),
+        ];
+
+        if (\array_key_exists('headers', $options)) {
+            $options['headers'] = array_merge($options['headers'], $headers);
+        } else {
+            $options['headers'] = $headers;
+        }
+
+        $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());
+        $serializer = new Serializer([$normalizer], [new JsonEncoder()]);
+
+        if ($model instanceof RequestInterface) {
+            $body = $normalizer->normalize($model);
+            $options['body'] = $body;
+        }
+
+        if ($requiresClientId) {
+            $options['body']['client_id'] = $this->clientToken;
+        }
+
+        $options['body'] = $serializer->serialize($options['body'], 'json');
+
+        $data = $this->client->request('post', $uri, $options);
+        $body = $data->getBody()->getContents();
+
+        $response = $this->serializer->deserialize($body, $responseClass, 'json');
+
+        if (!$response instanceof ResponseInterface) {
+            throw new \Exception('Incorrect response model returned.');
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string[][] $options
+     */
     public function post(string $uri, ?RequestInterface $model, array $options = [], bool $requiresClientId = false): void
     {
         $headers = [

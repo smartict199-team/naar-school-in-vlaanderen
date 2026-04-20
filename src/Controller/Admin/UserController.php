@@ -10,6 +10,7 @@ use App\Model\Auth0Filter;
 use App\Model\Role;
 use App\Model\User;
 use App\Service\Auth0\UserRepository;
+use App\Service\Mailer\UserMailer;
 use App\Service\Provider\UserProvider;
 use App\Service\Transformer\UserTransformer;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
@@ -89,7 +90,8 @@ class UserController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         UserTransformer $transformer,
-        AdminUrlGenerator $adminUrlGenerator): Response
+        AdminUrlGenerator $adminUrlGenerator,
+        UserMailer $userMailer): Response
     {
         $this->denyAccessUnlessGranted(Role::ROLE_CREATE_USER);
 
@@ -103,8 +105,13 @@ class UserController extends AbstractController
 
             $createUserRequest = $transformer->transformModelToCreateRequest($newUser);
             try {
-                $userRepository->createUser($createUserRequest);
-                $userRepository->resetPassword($createUserRequest->getEmail());
+                $createdUser = $userRepository->createUser($createUserRequest);
+                $userId = $createdUser->getUserId();
+                if (null === $userId) {
+                    throw new \RuntimeException('User created but no user ID returned from Auth0.');
+                }
+                $ticketUrl = $userRepository->createPasswordChangeTicket($userId);
+                $userMailer->sendPasswordSetupEmail((string) $createUserRequest->getEmail(), $ticketUrl);
                 $this->addFlash('success', 'app.admin.user.create.flash.user_created');
 
                 return $this->redirect($adminUrlGenerator->setRoute('user_index')->generateUrl());

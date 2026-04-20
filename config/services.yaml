@@ -53,6 +53,11 @@ services:
             $audience: '%env(resolve:AUTH0_MANAGEMENT_AUDIENCE)%'
             $client: '@App\Service\Client\Auth0ClientInterface'
 
+    App\Service\Mailer\UserMailer:
+        arguments:
+            $senderEmail: '%env(MAILER_SENDER_EMAIL)%'
+            $senderName: '%env(MAILER_SENDER_NAME)%'
+
     App\EventSubscriber\LogoutEventSubscriber:
         arguments:
             $auth0Domain: '%env(resolve:AUTH0_DOMAIN)%'

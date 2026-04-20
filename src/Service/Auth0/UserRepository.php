@@ -8,6 +8,7 @@ use App\Event\UserUpdatedEvent;
 use App\Exception\UserExistsException;
 use App\Model\Request\CreateUserRequest;
 use App\Model\Request\UpdateUserRequest;
+use App\Model\Response\PasswordChangeTicketResponse;
 use App\Model\Response\UserResponse;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -73,10 +74,10 @@ class UserRepository implements Auth0RepositoryInterface
         );
     }
 
-    public function createUser(CreateUserRequest $userRequest): void
+    public function createUser(CreateUserRequest $userRequest): UserResponse
     {
         try {
-            $this->client->post('/api/v2/users', $userRequest);
+            $response = $this->client->postWithResponse('/api/v2/users', $userRequest, UserResponse::class);
         } catch (ClientException $clientException) {
             if (Response::HTTP_CONFLICT === $clientException->getCode()) {
                 throw new UserExistsException();
@@ -84,6 +85,12 @@ class UserRepository implements Auth0RepositoryInterface
 
             throw $clientException;
         }
+
+        if (!$response instanceof UserResponse) {
+            throw new \RuntimeException('Unexpected response when creating user.');
+        }
+
+        return $response;
     }
 
     public function updateUser(string $userId, UpdateUserRequest $userRequest): void
@@ -100,6 +107,28 @@ class UserRepository implements Auth0RepositoryInterface
         $options['body']['connection'] = 'Naarschoolin';
 
         $this->client->post('/dbconnections/change_password', null, $options, true);
+    }
+
+    public function createPasswordChangeTicket(string $userId): string
+    {
+        $options = [];
+
+        $options['body']['user_id'] = $userId;
+        $options['body']['mark_email_as_verified'] = true;
+        $options['body']['ttl_sec'] = 86400;
+
+        $response = $this->client->postWithResponse(
+            '/api/v2/tickets/password-change',
+            null,
+            PasswordChangeTicketResponse::class,
+            $options
+        );
+
+        if (!$response instanceof PasswordChangeTicketResponse || null === $response->getTicket()) {
+            throw new \RuntimeException('Failed to create password change ticket for user.');
+        }
+
+        return $response->getTicket();
     }
 
     public function deleteUser(string $userId): void
