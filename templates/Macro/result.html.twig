@@ -21,7 +21,9 @@
         {% endif %}
         {% if school.website %}
           <div class="col-md-{% if school.email or school.phoneNumber %}4{% else %}8{% endif %}">
-            <p><a href="{{ school.website | trim(' ') }}" target="_blank"><i class="fas fa-link pr-2 d-inline"></i>{{ school.website | replace({'https://www.': '', 'https://': '', 'http://': '', 'http://www.': ''}) | trim('/ ', 'right') }}</a></p>
+            {% set websiteUrl = school.website | trim(' ') %}
+            {% set websiteHref = (websiteUrl starts with 'http://' or websiteUrl starts with 'https://') ? websiteUrl : 'https://' ~ websiteUrl %}
+            <p><a href="{{ websiteHref }}" target="_blank" rel="noopener noreferrer"><i class="fas fa-link pr-2 d-inline"></i>{{ websiteUrl | replace({'https://www.': '', 'https://': '', 'http://': '', 'http://www.': ''}) | trim('/ ', 'right') }}</a></p>
           </div>
         {% endif %}
       </div>
