@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+{% import 'Macro/result.html.twig' as result_macro %}
+
+{% block title %}{{ 'app.index.title' | trans }}{% endblock %}
+
+{% block body %}
+  <a href="#" class="d-md-none toggle-filter position-fixed px-3 py-2 bg-success adjust-btn text-white invisible"
+     style="top:20px; left: 0; z-index:100;"><i class="fas fa-arrow-left"></i> {{ 'app.index.change_filter' | trans }}</a>
+  <div class="row">
+    <div class="col-md-4 app-filter active p-4 p-md-5">
+      <a href="{{ path('index') }}"> <img src="{{ asset('build/logo-nsiv.svg') }}" height="50" alt="Logo NSIV"></a>
+      {{ form_start(form, {'attr': {'id': 'filter-form', 'class': 'mb-5'}}) }}
+
+      <div class="d-flex justify-content-center mt-3">
+        <div class="spinner-border" role="status" id="loading">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <div class="anno-container mb-3" id="main-filter-form" hidden>
+        <h1 class="h5 mt-5 mb-2">Zoek vrije plaatsen</h1>
+        <div class="app-filtergroup" id="filter-schooljaar">
+          <p class="app-filtertitle">{{ form_label(form.cities) }}</p>
+          {{ form_widget(form.cities) }}
+        </div>
+
+        <div class="app-filtergroup mt-4">
+          <p class="app-filtertitle">{{ form_label(form.schoolYear) }}</p>
+          <div class="btn-group btn-group-sm btn-group-toggle js-fixed-filter" data-toggle="buttons">
+            {% for child in form.schoolYear %}
+              <label for="{{ child.vars.id }}" class="btn btn-primary text-left {% if child.vars.checked %}active{% endif %}">
+                <input {% if child.vars.checked %}checked{% endif %} type="radio"
+                       id="{{ child.vars.id }}"
+                       name="{{ form.vars.id ~ '[' ~ form.schoolYear.vars.name ~ ']' }}"
+                       value="{{ child.vars.value }}" autocomplete="off">
+                {{ child.vars.label | trans }}
+              </label>
+            {% endfor %}
+            {% do form.schoolYear.setRendered %}
+          </div>
+        </div>
+
+        <div class="app-filtergroup mt-4">
+          <p class="app-filtertitle">{{ form_label(form.type) }}</p>
+          <div class="btn-group btn-group-sm btn-group-toggle js-fixed-filter" data-toggle="buttons">
+            {% for child in form.type %}
+              <label for="{{ child.vars.id }}" class="btn btn-primary text-left {% if child.vars.checked %}active{% endif %}">
+                <input {% if child.vars.checked %}checked{% endif %} type="radio"
+                       id="{{ child.vars.id }}"
+                       name="{{ form.vars.id ~ '[' ~ form.type.vars.name ~ ']' }}"
+                       value="{{ child.vars.value }}" autocomplete="off">
+                {{ child.vars.label | trans }}
+              </label>
+            {% endfor %}
+            {% do form.type.setRendered %}
+          </div>
+        </div>
+
+        <div class="app-filtergroup mt-4">
+          <p class="app-filtertitle">{{ form_label(form.level) }}</p>
+          <div class="btn-group btn-group-sm btn-group-toggle js-fixed-filter" data-toggle="buttons">
+            {% for child in form.level %}
+              <label for="{{ child.vars.id }}" class="btn btn-primary text-left {% if child.vars.checked %}active{% endif %}">
+                <input {% if child.vars.checked %}checked{% endif %} type="radio"
+                       id="{{ child.vars.id }}"
+                       name="{{ form.vars.id ~ '[' ~ form.level.vars.name ~ ']' }}"
+                       value="{{ child.vars.value }}" autocomplete="off">
+                {{ child.vars.label | trans }}
+              </label>
+            {% endfor %}
+            {% do form.level.setRendered %}
+          </div>
+        </div>
+        <div id="d-flex flex-column-reverse">
+          {% if form.schoolLevel is defined and form.schoolLevel %}
+            <div class="app-filtergroup mt-4">
+              <p class="app-filtertitle">{{ form_label(form.schoolLevel) }}</p>
+              {{ form_widget(form.schoolLevel) }}
+            </div>
+          {% endif %}
+
+          {% if form.schoolType is defined and form.schoolType %}
+            <div class="app-filtergroup mt-4">
+              <p class="app-filtertitle">{{ form_label(form.schoolType) }}</p>
+              {{ form_widget(form.schoolType) }}
+            </div>
+          {% endif %}
+
+          {% if form.schoolPhase is defined and form.schoolPhase %}
+            <div class="app-filtergroup mt-4">
+              <p class="app-filtertitle">{{ form_label(form.schoolPhase) }}</p>
+              {{ form_widget(form.schoolPhase) }}
+            </div>
+          {% endif %}
+
+          {% if form.schoolGrade is defined and form.schoolGrade %}
+            <div class="app-filtergroup mt-4">
+              <p class="app-filtertitle">{{ form_label(form.schoolGrade) }}</p>
+              {{ form_widget(form.schoolGrade) }}
+            </div>
+          {% endif %}
+
+          {% if form.education is defined and form.education %}
+            <div class="app-filtergroup mt-4">
+              <p class="app-filtertitle">{{ form_label(form.education) }}</p>
+              {{ form_widget(form.education) }}
+            </div>
+          {% endif %}
+
+          <button class="d-md-none mt-4 mb-4 toggle-filter btn btn-success btn-lg">{{ 'app.index.show_results' | trans }}</button>
+          <a href="{{ path('index') }}">
+            <div class="mt-4 mb-4"> <i class="fas fa-trash-alt"></i> {{ 'app.index.reset_filter' | trans }} </div>
+          </a>
+        </div>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+    <div class="col-md-8 bg-light app-results p-4 p-md-5">
+      {% if results is defined and results and (results|length > 0) %}
+        <div class="" id="app-results">
+          {% for result in results %}
+            {{ result_macro.render(result) }}
+          {% endfor %}
+        </div>
+        <div class="p-3 text-center">
+          {% include('includes/footer.html.twig') %}
+        </div>
+      {% elseif submitted is defined and submitted %}
+        <div id="noresults" class="p-5 text-center" style="display: block;">
+          <p class="h3">{{ 'app.index.results.no_results' | trans }}</p>
+        </div>
+      {% else %}
+
+        <div class="d-flex flex-column justify-content-center align-items-center app-startscreen app-startscreen-show">
+          <div class="text-center p-5 mt-5">
+            <h2 class="mb-4 mb-5 righttitle">{{ 'app.index.intro.title' | trans }}</h2>
+            <p class="lead">{{ 'app.index.intro.subtitle' | trans }}</p>
+            <ul class="list-unstyled">
+              {{ 'app.index.intro.step_list' | trans | raw }}
+            </ul>
+            <p class="m-2">
+              <a href=" https://lop.vlaanderen/" target="_blank">
+                <img class="rounded mx-auto d-block" style="width: 65%;" src="{{ asset('build/home-img.png') }}">
+              </a>
+            </p>
+
+            <div class="p-3">
+              {% include('includes/footer.html.twig') %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title 'Bulk School Import' %}
+
+{% block main %}
+  <div class="form-widget">
+    {{ form_start(form) }}
+    {{ form_row(form.postcode) }}
+    {{ form_row(form.gemeente) }}
+    {{ form_row(form.onderwijsvormen) }}
+    {{ form_row(form.schooljaren) }}
+    <button type="submit" class="btn btn-primary">
+      <i class="fa fa-upload"></i> Importeer Scholen
+    </button>
+    {{ form_end(form) }}
+  </div>
+
+{% if importedSchools is not empty %}
+  <h2>Gevonden scholen</h2>
+  <form method="post" action="{{ path('admin_school_bulk_import_confirm') }}">
+    <input type="hidden" name="gemeente" value="{{ gemeente }}">
+    <input type="hidden" name="schooljaren" value="{{ schooljaren|join(',') }}">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>
+          <input type="checkbox" id="select-all">
+        </th>
+        <th>Naam</th>
+        <th>Straat</th>
+        <th>Gemeente</th>
+        <th>Instelling nummer</th>
+        <th>Vestigingsnummer</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for school in importedSchools %}
+        <tr>
+          <td>
+            <input type="checkbox" name="selectedSchools[]" value="{{ school.instelling_nummer }}-{{ school.instellingslocatie_vestigingsnummer }}">
+          </td>
+          <td>{{ school.instelling_naam }}</td>
+          <td>{{ school.instellingslocatie_straatnaam }} {{ school.instellingslocatie_huisnummer }}</td>
+          <td>{{ school.instellingslocatie_gemeente }}</td>
+          <td>{{ school.instelling_nummer }}</td>
+          <td>{{ school.instellingslocatie_vestigingsnummer }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Bevestig selectie en importeer</button>
+  </form>
+
+  {% block javascripts %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const selectAll = document.getElementById('select-all');
+        const checkboxes = document.querySelectorAll('input[name="selectedSchools[]"]');
+
+        selectAll.addEventListener('change', function () {
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAll.checked;
+          });
+        });
+      });
+    </script>
+  {% endblock %}
+{% endif %}
+
+{% endblock %}

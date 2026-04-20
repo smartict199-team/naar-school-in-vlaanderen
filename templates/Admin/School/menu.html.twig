@@ -1,0 +1,7 @@
+{% for menuItem in subMenu %}
+  {% if is_granted(menuItem.permission) %}
+    <a class="btn {{ activeMenuItem in menuItem.linkUrl ? 'btn-secondary' : menuItem.cssClass | default('btn-link') }}" href="{{ menuItem.linkUrl }}">
+      <i class="{{ menuItem.icon }}"></i> {{ menuItem.label | trans }}
+    </a>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
+  <file src="src/Controller/Admin/SchoolCrudController.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$links</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>array&lt;array-key, array{url: string, year: SchoolYear}&gt;</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Controller/Admin/UserController.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$createUserRequest-&gt;getEmail()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Controller/IndexController.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>IndexController</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/DataFixtures/SchoolEducationsFixtures.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$yearRef</code>
+    </ArgumentTypeCoercion>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>SchoolEducationsFixtures</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/DataFixtures/SchoolFixtures.php">
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>SchoolFixtures</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/DataFixtures/SchoolGradesFixtures.php">
+    <InvalidArgument occurrences="1">
+      <code>new ArrayCollection($years)</code>
+    </InvalidArgument>
+  </file>
+  <file src="src/DataFixtures/SchoolLevelFormTypesFixtures.php">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$this-&gt;getReference($schoolFormTypeReference)</code>
+      <code>$this-&gt;getReference($schoolLevelReference)</code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/DataFixtures/SchoolOfficialEducationsFixtures.php">
+    <InvalidPropertyAssignmentValue occurrences="1"/>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>SchoolOfficialEducationsFixtures</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/EventSubscriber/AddDefaultSchoolEducationsEventSubscriber.php">
+    <InvalidArgument occurrences="1">
+      <code>$defaultEducation</code>
+    </InvalidArgument>
+  </file>
+  <file src="src/EventSubscriber/SchoolEducationChangeLogEventSubscriber.php">
+    <InternalMethod occurrences="1">
+      <code>computeChangeSet</code>
+    </InternalMethod>
+  </file>
+  <file src="src/Form/FilterFormType.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$choice</code>
+    </MissingClosureParamType>
+  </file>
+  <file src="src/Model/Auth0Filter.php">
+    <MissingConstructor occurrences="1">
+      <code>$user</code>
+    </MissingConstructor>
+  </file>
+  <file src="src/Repository/SchoolEducationRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolEducation[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolGradeRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolGrade[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolLevelGradeRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolLevelGrade[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolLevelRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolLevel[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolOfficialEducationRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolOfficialEducation[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>School[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Repository/SchoolYearRepository.php">
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>SchoolYear[]</code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Security/Auth0ResourceOwner.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$value</code>
+    </MissingClosureParamType>
+  </file>
+  <file src="src/Security/OAuthUserProvider.php">
+    <MoreSpecificImplementedParamType occurrences="1">
+      <code>$class</code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="src/Service/Auth0/Client.php">
+    <PossiblyInvalidArrayAssignment occurrences="2">
+      <code>$options['body']['client_id']</code>
+      <code>$options['body']['client_id']</code>
+    </PossiblyInvalidArrayAssignment>
+    <PossiblyNullReference occurrences="2">
+      <code>$options['body']</code>
+      <code>$options['body']</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Service/Auth0/FilterService.php">
+    <PossiblyNullArgument occurrences="4">
+      <code>$school-&gt;getId()</code>
+      <code>$school-&gt;getId()</code>
+      <code>$user-&gt;getId()</code>
+      <code>$user-&gt;getId()</code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$queryArray</code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="src/Service/Auth0/UserRepository.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>$data</code>
+      <code>$this-&gt;client-&gt;request('GET', '/api/v2/users', sprintf('%s[]', UserResponse::class))</code>
+      <code>$this-&gt;client-&gt;request('GET', sprintf('/api/v2/users%s', $query ? sprintf('?q=%s', $query) : ''), sprintf('%s[]', UserResponse::class))</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>UserResponse[]|null</code>
+      <code>UserResponse[]|null</code>
+      <code>UserResponse[]|null</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Service/Educations/EducationsFormDataTransformer.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Service/Exports/KiesjeschoolDataTransformer.php">
+    <PossiblyNullReference occurrences="1">
+      <code>getId</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Service/Provider/FilterFormDataProvider.php">
+    <InvalidArrayOffset occurrences="1">
+      <code>$cityChoicesWithKeys[$key]</code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="src/Service/Search/Formatter/ReceptionEducationFormatter.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$education-&gt;getGrade()-&gt;getInternalName()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="3">
+      <code>getInternalName</code>
+      <code>getInternalName</code>
+      <code>getStartYear</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Service/Transformer/UserTransformer.php">
+    <PossiblyNullArgument occurrences="1">
+      <code>$response-&gt;getUserId()</code>
+    </PossiblyNullArgument>
+  </file>
+</files>

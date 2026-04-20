@@ -1,0 +1,171 @@
+@import "old.css";
+
+
+//regular css 
+
+.righttitle{
+    color: #2473BA;
+    margin-top: 15%;
+}
+
+a {
+    color: #2473BA;
+}
+
+.btn-primary {
+    background-color:rgba(36, 115, 186, 0.5);
+    border: none !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #2473BA;
+    opacity: 1;
+    border-color: rgba(36, 115, 186, 0.5);
+}
+
+
+.steps{
+    color: #2473BA;
+}
+
+
+.toggle-filter {
+    background-color: #2473BA !important;
+    border-color: #2473BA !important;
+}
+.toggle-filter:hover {
+    background-color: #2473BA !important;
+    border-color: #2473BA !important;
+    color: #fff;
+}
+
+.tooltip-inner{
+    max-width: 200px;
+    padding: .25rem .5rem;
+    color: #fff;
+    text-align: center;
+    background-color: #000000;
+    opacity: 1;
+    border-radius: .25rem;
+    font-size: larger;
+}
+
+
+@media(max-width:830px) {
+    .app-filter {
+        width: 100%;
+        background: white;
+        transform: translateX(-100%);
+        transition: transform 0.2s;
+        height: 0;
+    }
+    .app-filter.active {
+        transform: translateX(0);
+        height: 100%;
+    }
+    .app-results {
+        transform: translateX(-100%);
+        height: 0;
+        transition: transform 0.2s;
+        background: white !important;
+    }
+    .app-results.active {
+        transform: translateX(0);
+        height: 100%;
+        background: inherit;
+    }
+    .toggle-filter {
+        display: block !important;
+        width: 100%;
+    }
+    
+    .adjust-btn {
+        display: block;
+        width: auto;
+    }
+    .app-startscreen {
+        position:relative;
+        margin-top: -130px;
+    }
+}
+
+
+@media (min-width: 575px) and (max-width: 750px){
+    
+    .app-filter {
+        min-width: 500px;
+        background: white;
+        transform: translateX(-100%);
+        transition: transform 0.2s;
+        height: 0;
+    }
+    .app-filter.active {
+        transform: translateX(0);
+        height: 100%;
+    }
+    .app-results{
+        min-width: 500px;
+        transform: translateX(-100%);
+        height: 0;
+        transition: transform 0.2s;
+    }
+    .app-results.active {
+        transform: translateX(0);
+        height: 100%;
+        background: inherit;
+    }
+
+    .toggle-filter {
+        display: block !important;
+        width: 100%;
+    }
+   .btn-reset{
+       display: block;
+       width: 100%;
+   }
+   .adjust-btn {
+       display: block;
+       width: auto;
+   }
+   .app-startscreen {
+    position:relative;
+    margin-top: -130px ;
+    }
+   
+}
+
+@media (min-width: 750px) and (max-width: 830px){
+    
+    .app-filter {
+        min-width: 750px;
+    }
+    
+    .app-results{
+        min-width: 750px;
+    }
+
+    .toggle-filter {
+        display: block !important;
+    }
+    .btn-reset{
+        display: block;
+        width: 100%;
+    }
+    .adjust-btn {
+        display: block;
+        width: auto;
+    }
+    .app-startscreen {
+        position:relative;
+        margin-top: -230px;
+    }
+   
+}
+
+@media (min-width: 1030px) and (max-width: 1500px) {
+    .app-startscreen {
+        position:relative;
+        margin-top: 100px;
+    }
+}

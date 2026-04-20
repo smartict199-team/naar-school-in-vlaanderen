@@ -1,0 +1,18 @@
+monolog:
+    channels: ['fixture', 'api']
+    handlers:
+        file_log:
+            type: stream
+            # log to var/log/(environment).log
+            path: "%kernel.logs_dir%/fixtures-%kernel.environment%.log"
+            # log *all* messages (debug is lowest level)
+            level: debug
+            channels: ['fixture']
+        api_file_log:
+            type: rotating_file
+            # log to var/log/(environment).log
+            path: "%kernel.logs_dir%/api-%kernel.environment%.log"
+            # log *all* messages (debug is lowest level)
+            level: debug
+            channels: ['api']
+            max_files: 30

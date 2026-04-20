@@ -1,0 +1,66 @@
+security:
+    providers:
+        oauth_hwi:
+            id: 'App\Security\OAuthUserProvider'
+        api_user_provider:
+            entity:
+                class: App\Entity\User\ApiUser
+                property: apiToken
+    role_hierarchy:
+        ROLE_SUPER_ADMIN:
+            - ROLE_GROUP_ADMIN
+            - ROLE_SCHOOL_ADMIN
+            - ROLE_SCHOOL_YEAR_ADMIN
+            - ROLE_CREATE_USER
+        ROLE_GROUP_ADMIN:
+            - ROLE_USER_ADMIN
+            - ROLE_ADD_SCHOOL
+            - ROLE_EDIT_SCHOOL_EDUCATIONS
+            - ROLE_EDIT_SCHOOL
+            - ROLE_DELETE_SCHOOL
+            - ROLE_SCHOOL_ADMIN
+            - ROLE_CREATE_USER
+        ROLE_SCHOOL_ADMIN:
+            - ROLE_USER_ADMIN
+            - ROLE_EDIT_SCHOOL
+            - ROLE_EDIT_SCHOOL_EDUCATIONS
+            - ROLE_EDIT_SCHOOL_EDUCATION_NUMBERS
+            - ROLE_IMPORT_SCHOOL_EDUCATIONS
+            - ROLE_EXPORT_SCHOOL_EDUCATION_NUMBERS
+        ROLE_SCHOOL_YEAR_ADMIN:
+            - ROLE_EDIT_SCHOOL_YEAR
+            - ROLE_ADD_SCHOOL_YEAR
+        ROLE_USER_ADMIN:
+            - ROLE_DELETE_USER
+            - ROLE_EDIT_USER
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api:
+            pattern: ^/api(?!/doc$)
+            stateless: true
+            anonymous: ~
+            provider: api_user_provider
+            guard:
+                authenticators:
+                    - App\Security\Api\TokenAuthenticator
+        main:
+            anonymous: ~
+            provider: oauth_hwi
+            oauth:
+                resource_owners:
+                    auth0: "/auth0/callback"
+                login_path: /login/
+                failure_path: /login/
+                default_target_path: /admin
+                oauth_user_provider:
+                    service: App\Security\OAuthUserProvider
+            logout:
+                path: app_logout
+                target: /
+    access_control:
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/doc$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: [ROLE_SUPER_ADMIN, ROLE_SCHOOL_ADMIN, ROLE_GROUP_ADMIN] }
+        - { path: ^/api, roles: [ROLE_API] }

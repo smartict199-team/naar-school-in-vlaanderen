@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+  <title>{% block title %}{{ 'app.index.title' | trans }}{% endblock %}</title>
+
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="981b2327-286f-4d25-a477-4544c9d22ca7"
+          data-blockingmode="auto" type="text/javascript"></script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJG7W2P');</script>
+  <!-- End Google Tag Manager -->
+
+  {% block stylesheets %}
+    {{ encore_entry_link_tags('base') }}
+    {{ encore_entry_link_tags('app') }}
+  {% endblock %}
+
+  {% block javascripts %}
+    {{ encore_entry_script_tags('base') }}
+    {{ encore_entry_script_tags('app') }}
+  {% endblock %}
+</head>
+
+<body class="{% block body_classes %}{% endblock %}">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJG7W2P"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  {% block main %}
+    <main role="main" class="{% block main_classes %}container-fluid{% endblock %}">
+      {% block body %}
+      {% endblock %}
+    </main>
+    {% block footer %}{% endblock %}
+  {% endblock %}
+</body>
+</html>

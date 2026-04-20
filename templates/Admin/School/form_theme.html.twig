@@ -1,0 +1,550 @@
+{% use 'bootstrap_4_layout.html.twig' %}
+
+{% block form_start %}
+  {% if form.vars.errors|length > 0 %}
+    {{ form_errors(form) }}
+  {% endif %}
+  {{ parent() }}
+
+  <input type="hidden" name="referrer" value="{{ ea.request.query.get('referrer') }}">
+{% endblock form_start %}
+
+{% block form_row %}
+  {% set row_attr = row_attr|merge({
+    class: row_attr.class|default('') ~ ' form-group'
+  }) %}
+
+  <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+    {{- form_label(form) -}}
+    <div class="form-widget">
+      {% set has_prepend_html = ea.field.prepend_html|default(null) is not null %}
+      {% set has_append_html = ea.field.append_html|default(null) is not null %}
+      {% set has_input_groups = has_prepend_html or has_append_html %}
+
+      {% if has_input_groups %}
+      <div class="input-group">{% endif %}
+        {% if has_prepend_html %}
+          <div class="input-group-prepend">
+            <span class="input-group-text">{{ ea.field.prepend_html|raw }}</span>
+          </div>
+        {% endif %}
+
+        {{ form_widget(form) }}
+
+        {% if has_append_html %}
+          <div class="input-group-append">
+            <span class="input-group-text">{{ ea.field.append_html|raw }}</span>
+          </div>
+        {% endif %}
+        {% if has_input_groups %}</div>{% endif %}
+
+      {% set nullable_fields_fqcn = [
+        'EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField',
+        'EasyCorp\Bundle\EasyAdminBundle\Field\DateField',
+        'EasyCorp\Bundle\EasyAdminBundle\Field\TimeField',
+      ] %}
+      {% if form.vars.ea_crud_form.ea_field.fieldFqcn|default(false) in nullable_fields_fqcn and ea.field.nullable|default(false) %}
+        <div class="nullable-control">
+          <label>
+            <input type="checkbox" {% if data is null %}checked="checked"{% endif %}>
+            {{ 'label.nullable_field'|trans({}, 'EasyAdminBundle') }}
+          </label>
+        </div>
+      {% endif %}
+
+      {% if ea.field.help|default(form.vars.help) != '' %}
+        <small class="form-help">{{ ea.field.help|default(form.vars.help)|raw }}</small>
+      {% endif %}
+
+      {{- form_errors(form) -}}
+    </div>
+  </div>
+{% endblock form_row %}
+
+{% block educations_collection_row %}
+  {{ form_widget(form) }}
+{% endblock %}
+
+{% block school_education_collection_form_row %}
+  {% set row_attr = row_attr|merge({
+    class: row_attr.class|default('')
+  }) %}
+
+  <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+    <h5>{{- form_label(form) -}}</h5>
+    {% for error in form.parent.vars.errors %}
+      {% if error.origin.name == form.vars.name %}
+        <span class="alert alert-danger d-block mb-3"><span class="d-block">
+          <span class="form-error-icon badge badge-danger text-uppercase">Fout</span>
+            <span class="form-error-message">{{ error.message }}</span>
+          </span>
+        </span>
+      {% endif %}
+    {% endfor %}
+
+    <div class="row mb-3">
+      {% set numberOfFields = level.requiredEducationFields | length %}
+      {% for field in level.requiredEducationFields %}
+        {% set colRemainder = 11 % numberOfFields %}
+        {% set colSize = min([((11 - colRemainder) / numberOfFields) + (loop.first ? colRemainder : 0), 3]) %}
+        <div class="col-md-{{ colSize }}">
+          {{ ('app.admin.schools.educations.' ~ level.type ~ '.' ~ level.level ~ '.' ~ field) | trans }}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="form-widget">
+      {% set has_prepend_html = ea.field.prepend_html|default(null) is not null %}
+      {% set has_append_html = ea.field.append_html|default(null) is not null %}
+      {% set has_input_groups = has_prepend_html or has_append_html %}
+
+      {% if has_input_groups %}
+      <div class="input-group">{% endif %}
+        {% if has_prepend_html %}
+          <div class="input-group-prepend">
+            <span class="input-group-text">{{ ea.field.prepend_html|raw }}</span>
+          </div>
+        {% endif %}
+
+        {{ form_widget(form) }}
+
+        {% if has_append_html %}
+          <div class="input-group-append">
+            <span class="input-group-text">{{ ea.field.append_html|raw }}</span>
+          </div>
+        {% endif %}
+        {% if has_input_groups %}</div>{% endif %}
+
+      {% set nullable_fields_fqcn = [
+        'EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField',
+        'EasyCorp\Bundle\EasyAdminBundle\Field\DateField',
+        'EasyCorp\Bundle\EasyAdminBundle\Field\TimeField',
+      ] %}
+      {% if form.vars.ea_crud_form.ea_field.fieldFqcn|default(false) in nullable_fields_fqcn and ea.field.nullable|default(false) %}
+        <div class="nullable-control">
+          <label>
+            <input type="checkbox" {% if data is null %}checked="checked"{% endif %}>
+            {{ 'label.nullable_field'|trans({}, 'EasyAdminBundle') }}
+          </label>
+        </div>
+      {% endif %}
+
+      {% if ea.field.help|default(form.vars.help) != '' %}
+        <small class="form-help">{{ ea.field.help|default(form.vars.help)|raw }}</small>
+      {% endif %}
+
+      {{- form_errors(form) -}}
+    </div>
+  </div>
+{% endblock school_education_collection_form_row %}
+
+{% block school_education_collection_row %}
+  {% if prototype is defined and not prototype.rendered %}
+    {% set row_attr = row_attr|merge({ 'data-prototype': form_row(prototype) }) %}
+  {% endif %}
+
+  {% set row_attr = row_attr|merge({
+    'data-ea-collection-field': 'true',
+    'data-entry-is-complex': 'true',
+    'data-allow-add': allow_add ? 'true' : 'false',
+    'data-allow-delete': allow_delete ? 'true' : 'false',
+    'data-num-items': form.children|length,
+    'data-form-type-name-placeholder': prototype is defined ? prototype.vars.name : '',
+  }) %}
+
+  {{ block('school_education_collection_form_row') }}
+{% endblock school_education_collection_row %}
+
+{% block school_numbers_collection_row %}
+  {% if prototype is defined and not prototype.rendered %}
+    {% set row_attr = row_attr|merge({ 'data-prototype': form_row(prototype) }) %}
+  {% endif %}
+
+  {% set row_attr = row_attr|merge({
+    'data-ea-collection-field': 'true',
+    'data-entry-is-complex': 'true',
+    'data-allow-add': allow_add ? 'true' : 'false',
+    'data-allow-delete': allow_delete ? 'true' : 'false',
+    'data-num-items': form.children|length,
+    'data-form-type-name-placeholder': prototype is defined ? prototype.vars.name : '',
+  }) %}
+
+  {{ block('school_numbers_collection_form_row') }}
+{% endblock school_numbers_collection_row %}
+
+{% block collection_row %}
+
+  {% if prototype is defined and not prototype.rendered %}
+    {% set row_attr = row_attr|merge({ 'data-prototype': form_row(prototype) }) %}
+  {% endif %}
+
+  {% set row_attr = row_attr|merge({
+    'data-ea-collection-field': 'true',
+    'data-entry-is-complex': 'true',
+    'data-allow-add': allow_add ? 'true' : 'false',
+    'data-allow-delete': allow_delete ? 'true' : 'false',
+    'data-num-items': form.children|length,
+    'data-form-type-name-placeholder': prototype is defined ? prototype.vars.name : '',
+  }) %}
+
+  {{ block('form_row') }}
+{% endblock collection_row %}
+
+{% block collection_widget %}
+  <div class="mb-5">
+    {{ block('form_widget') }}
+
+    {% if allow_add|default(false) %}
+      <button type="button" class="btn btn-link field-collection-add-button">
+        <i class="fa fa-plus pr-1"></i>
+        {{ 'action.add_new_item'|trans({}, 'EasyAdminBundle') }}
+      </button>
+    {% endif %}
+  </div>
+{% endblock collection_widget %}
+
+{% block collection_entry_widget %}
+  <div class="field-collection-item field-collection-item-complex form-group col-md-4">
+    {{ form_widget(form) }}
+    {% if form_parent(form).vars.allow_delete|default(false) %}
+      <button type="button" class="btn btn-link field-collection-delete-button"
+              title="{{ 'action.remove_item'|trans({}, 'EasyAdminBundle') }}"
+              onclick="this.closest('.form-group').remove(); return false;">
+        <i class="fas fa-times"></i>
+      </button>
+    {% endif %}
+  </div>
+{% endblock collection_entry_widget %}
+
+{% block school_education_collection_item_widget %}
+  <div class="form-row">
+    {% set numberOfFields = level.requiredEducationFields | length %}
+    {% set colRemainder = 11 % numberOfFields %}
+    {% for child in form.children | filter(c => c.vars.name != "position") %}
+      {% set colSize = min([((11 - colRemainder) / numberOfFields + (loop.first ? colRemainder : 0)), 3]) %}
+      <div class="col-md-{{ colSize }}">
+        <div class="input-group">
+          {% if loop.first %}
+            <div class="input-group-prepend js-sortable-handle">
+              <span class="input-group-text">
+                <a title="{{ 'admin.action.move_item'| trans }}">
+                  <i class="fas fa-arrows-alt-v"></i>
+                </a>
+              </span>
+            </div>
+          {% endif %}
+
+          {% if form.vars.data is not null and not form.vars.data.deletable %}
+            {% set attr = {'readonly': true} %}
+          {% endif %}
+
+          {{ form_widget(child, {attr: attr | default({})}) }}
+        </div>
+      </div>
+    {% endfor %}
+    {{ form_widget(form.position, {attr: {class: 'js-position'}}) }}
+    {% if form.vars.data is null or form.vars.data.deletable %}
+      <div class="col-md-1">
+        <button type="button" class="btn btn-link field-collection-delete-button"
+                title="{{ 'action.remove_item'|trans({}, 'EasyAdminBundle') }}"
+                onclick="this.closest('.form-group').remove(); return false;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    {% endif %}
+  </div>
+{% endblock school_education_collection_item_widget %}
+
+{% block school_numbers_collection_form_row %}
+  {% set row_attr = row_attr|merge({
+    class: row_attr.class|default('')
+  }) %}
+
+  <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+    <h5>{{- form_label(form) -}}</h5>
+    {% for error in form.parent.vars.errors %}
+      {% if error.origin.name == form.vars.name %}
+        <span class="alert alert-danger d-block mb-3"><span class="d-block">
+          <span class="form-error-icon badge badge-danger text-uppercase">Fout</span>
+            <span class="form-error-message">{{ error.message }}</span>
+          </span>
+        </span>
+      {% endif %}
+    {% endfor %}
+
+    <div class="form-row mb-3 m-0">
+      <div class="col-md-4 pr-2 pl-2">
+      </div>
+      <div class="col-md-2 pr-2 pl-2">
+        {% if level.capacityRequired %}
+          <small>
+            {{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ '.capacity') | trans }}
+            <a href="#" data-toggle="tooltip"  data-trigger="hover focus click" title="{{ 'app.admin.schools.educations.capacity.indicator_tooltip' | trans }}">
+              <i class="fas fa-info-circle fa-lg"></i>
+            </a>
+          </small>
+        {% endif %}
+      </div>
+
+      {% set seats_taken_key = '.student_seats_taken' %}
+      {% if form.children.0.children.underrepresentedGroups is defined %}
+        <div class="col-md-2 pr-2 pl-2"><small>OVG</small></div>
+        {% set seats_taken_key = '.student_seats_taken_urg' %}
+      {% else %}
+        <div class="col-md-1 pr-2 pl-2">
+          {% if level.indicatorStudentSeatsPercentageRequired %}
+            <small>
+              {{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ '.indicator_student_seats_percentage') | trans }}
+            </small>
+          {% endif %}
+        </div>
+
+        <div class="col-md-1 pr-2 pl-2">
+          {% if level.indicatorStudentSeatsRequired %}
+            <small>{{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ '.indicator_student_seats_taken') | trans }}</small>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="col-md-1 pr-2 pl-2">
+        {% if level.studentSeatsRequired %}
+          <small>{{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ seats_taken_key) | trans }}</small>
+        {% endif %}
+      </div>
+
+      <div class="col-md-1 pr-2 pl-2">
+        {% if level.capacityReachedRequired %}
+          <small>{{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ '.capacity_reached') | trans }}</small>
+        {% endif %}
+      </div>
+
+      <div class="col-md-2 pr-2 pl-2">
+        {% if level.capacityReachedAtRequired and level.capacityReachedRequired %}
+          <small>{{ ('app.admin.schools.general.' ~ level.type ~ '.' ~ level.level ~ '.capacity_reached_at') | trans }}</small>
+        {% endif %}
+      </div>
+    </div>
+    <div class="form-widget">
+      {% set has_prepend_html = ea.field.prepend_html|default(null) is not null %}
+      {% set has_append_html = ea.field.append_html|default(null) is not null %}
+      {% set has_input_groups = has_prepend_html or has_append_html %}
+
+      {% if has_input_groups %}
+      <div class="input-group">{% endif %}
+        {% if has_prepend_html %}
+          <div class="input-group-prepend">
+            <span class="input-group-text">{{ ea.field.prepend_html|raw }}</span>
+          </div>
+        {% endif %}
+
+        {{ form_widget(form) }}
+
+        {% if has_append_html %}
+          <div class="input-group-append">
+            <span class="input-group-text">{{ ea.field.append_html|raw }}</span>
+          </div>
+        {% endif %}
+        {% if has_input_groups %}</div>{% endif %}
+
+      {{- form_errors(form) -}}
+    </div>
+  </div>
+{% endblock school_numbers_collection_form_row %}
+
+{% block school_numbers_collection_item_widget %}
+<div class="border-bottom form-row-container" style="border-bottom: 1px dashed !important;">
+  <div class="form-row pb-3 mb-3 pt-1">
+    <div class="col-md-4 pr-3 pl-3">
+      <small>{{ form.vars.data.fullName }}</small>
+    </div>
+
+    <div class="col-md-2 pr-3 pl-3 pt-1">
+      {% if form.capacity is defined %}
+        <div class="input-group js-capacity" data-toggle-name="capacity">
+          {{ form_widget(form.capacity) }}
+        </div>
+
+      {% endif %}
+    </div>
+
+    {% if form.underrepresentedGroups is defined %}
+      <div class="col-md-2 pr-2 pl-2 pt-1"></div>
+    {% else %}
+      <div class="col-md-1 pr-2 pl-2 pt-1">
+        {% if form.indicatorStudentSeatsPercentage is defined %}
+          <div class="input-group js-indicator-student-seats-percentage" data-toggle="capacity" data-toggle-name="percentage">
+            {{ form_widget(form.indicatorStudentSeatsPercentage) }}
+            <div class="input-group-prepend">
+              <div class="input-group-text">%</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-1 pr-3 pl-3 pt-1">
+        {% if form.indicatorStudentSeatsTaken is defined %}
+          <div class="input-group js-indicator-student-seats-taken" data-toggle="percentage">
+            {{ form_widget(form.indicatorStudentSeatsTaken) }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="col-md-1 pr-3 pl-3 pt-1">
+      {% if form.studentSeatsTaken is defined %}
+        <div class="input-group js-student-seats-taken">
+          {{ form_widget(form.studentSeatsTaken) }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-1 pr-3 pl-3">
+      {% if form.capacityReached is defined %}
+        <div class="d-flex justify-content-center js-capacity-reached">
+          {{ form_widget(form.capacityReached, {attr: {'data-target': '#modal-capacity-reached-' ~ form.vars.data.id}}) }}
+          <div class="modal fade" id="modal-capacity-reached-{{ form.vars.data.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-capacity-reached-{{ form.vars.data.id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{ 'app.admin.schools.general.pre_primary_education.reception_education.capacity_reached' | trans }}</h5>
+                </div>
+                <div class="modal-body">
+                  <p>{{ 'app.admin.schools.educations.confirm_uncheck_capacity_reached' | trans }}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="uncheckCapacityReached($(this))">{{ 'app.admin.schools.general.confirm' | trans }}</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'app.admin.schools.general.cancel' | trans }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-2 pr-3 pl-3 pt-0">
+      {% if form.capacityReachedAt is defined %}
+        <div class="invisible js-capacity-reached-at">
+          <small class="js-capacity-reached-at-date">
+            {{ form.vars.data.capacityReachedAt | date('d/m/Y H:i') }}
+          </small><br>
+          <a href="" data-toggle="modal" data-target="#modal-capacity-reached-at-{{ form.vars.data.id }}"><i class="fas fa-pen"></i> {{ 'app.admin.general.edit' | trans }}</a>
+
+          <div class="modal fade" id="modal-capacity-reached-at-{{ form.vars.data.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-capacity-reached-at-{{ form.vars.data.id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{ 'app.admin.schools.general.capacity_reached_at' | trans }}</h5>
+                </div>
+                <div class="modal-body">
+                  {{ form_widget(form.capacityReachedAt) }}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    {% if form.underrepresentedGroups is defined %}
+      <div class="offset-md-4 col-md-2 pr-3 pl-3 pt-1">
+        <small class="js-underrepresented-student-capacity invisible" data-toggle="capacity">
+          {{ 'app.admin.schools.general.amount_of_underrepresented_students' | trans | raw }}
+        </small>
+      </div>
+      <div class="col-md-1 pr-3 pl-2">
+        {% if form.indicatorStudentSeatsPercentageVisible is defined %}
+          {{ form_widget(form.indicatorStudentSeatsPercentageVisible) }}
+        {% endif %}
+      </div>
+      <div class="col-md-3 pr-3 pl-3 pt-1 offset-1">
+        <small class="js-remaining-student-capacity invisible">
+          {{ 'app.admin.schools.general.remaining_student_capacity' | trans | raw }}
+        </small>
+      </div>
+    {% else %}
+      <div class="offset-md-4 col-md-2 pr-3 pl-3 pt-1">
+        <small class="js-indicator-student-capacity invisible" data-toggle="capacity">
+          {{ 'app.admin.schools.general.amount_of_indicator_students' | trans | raw }}
+        </small>
+      </div>
+      <div class="col-md-1 pr-3 pl-2">
+        {% if form.indicatorStudentSeatsPercentageVisible is defined %}
+          {{ form_widget(form.indicatorStudentSeatsPercentageVisible) }}
+        {% endif %}
+      </div>
+      <div class="col-md-3 pr-3 pl-3 pt-1">
+        <small class="js-remaining-student-capacity invisible">
+          {{ 'app.admin.schools.general.remaining_student_capacity' | trans | raw }}
+        </small>
+      </div>
+    {% endif %}
+  </div>
+  {% if form.underrepresentedGroups is defined %}
+  {{ 'app.admin.schools.educations.underrepresented_groups.title' | trans }}
+  <div class="form-row mb-3 pt-1">
+    <div class="col-md-4 offset-md-2 pl-3 pr-2 pt-1">
+      <small>{{ 'app.admin.schools.educations.underrepresented_groups.description' | trans }}</small>
+    </div>
+    <div class="col-md-1 pl-3 pr-0 pt-1">
+      <small>{{ 'app.admin.schools.educations.underrepresented_groups.percentage' | trans }}</small>
+    </div>
+    <div class="col-md-1 pr-3 pl-3 pt-1 ml-2">
+      <small>{{ 'app.admin.schools.educations.underrepresented_groups.seated' | trans }}</small>
+    </div>
+  </div>
+  {{ form_row(form.underrepresentedGroups) }}
+  {% endif %}
+</div>
+{% endblock school_numbers_collection_item_widget %}
+
+{% block school_education_underrepresented_group_item_row %}
+<div class="form-row pt-1">
+  <div class="col-md-4 offset-md-2 pl-3 pr-2 pt-1">
+    {{ form_widget(form.description) }}
+  </div>
+  <div class="col-md-1 pl-3 pr-0 pt-1">
+    <div class="input-group js-underrepresented-student-seats-percentage" data-toggle="capacity" data-toggle-name="percentage">
+      {{ form_widget(form.studentSeatsPercentage, {'attr': {'onchange': 'checkAboveTwentyPercent(event, ' ~ form.studentSeatsPercentage.vars.value ~ ')'}}) }}
+      <div class="input-group-prepend">
+        <div class="input-group-text">%</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1 pr-3 pl-3 pt-1 ml-2">
+    <div class="input-group js-underrepresented-student-seats-taken" data-toggle="percentage">
+      {{ form_widget(form.studentSeatsTaken) }}
+    </div>
+  </div>
+  <button type="button" class="btn btn-link field-collection-delete-button"
+          title="{{ 'action.remove_item'|trans({}, 'EasyAdminBundle') }}"
+          onclick="this.closest('.form-row').remove(); return false;">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+{% endblock school_education_underrepresented_group_item_row %}
+
+{% block form_widget_compound %}
+  <div class="form-widget-compound">
+    {% if 'collection' in block_prefixes %}
+      {% set isEmptyCollection = value is null or (value is iterable and value is empty) %}
+      {% if isEmptyCollection %}
+        {{ block('empty_collection') }}
+      {% endif %}
+      {% if isEmptyCollection or form.vars.prototype is defined %}
+        {% set attr = attr|merge({'data-empty-collection': block('empty_collection') }) %}
+      {% endif %}
+    {% endif %}
+
+    {% set attr = attr | merge({'class': 'js-sortable' }) %}
+
+    {{ parent() }}
+  </div>
+{% endblock form_widget_compound %}
+
+{% block empty_collection %}
+  <div class="empty collection-empty">
+    {{ include(ea.templatePath('label/empty')) }}
+  </div>
+{% endblock empty_collection %}

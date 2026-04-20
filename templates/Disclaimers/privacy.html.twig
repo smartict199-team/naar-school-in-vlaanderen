@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'app.index.title' | trans }}{% endblock %}
+
+{% block stylesheets %}
+  {{ encore_entry_link_tags('base') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ encore_entry_script_tags('base') }}
+{% endblock %}
+
+{% block main_classes %}container pt-3{% endblock %}
+
+{% block body %}
+  
+  <a href="{{ path('index') }}"> 
+    <img class="mb-4" src="{{ asset('build/logo-nsiv.svg') }}" height="50" alt="Logo NSIV">
+  </a>
+  
+  <h2 class="mb-4">Privacy Policy</h2>
+  <p> Lokaal Overleg Platform (LOP), (hierna “wij”, “ons” of “onze”) verwerkt persoonsgegevens
+    overeenkomstig deze privacyverklaring. </p>
+  <p> Voor verdere informatie, vragen of opmerkingen omtrent ons privacy beleid,
+    kunt u terecht bij de beheerder vande site naarschoolinvlaanderen.be (hierna “Website”) via
+    info@naarschoolinvlaanderen.be. </p>
+
+  <h2 id="welke-persoonsgegevens-verzamelen-wij-van-u-tijdens-uw-bezoek-aan-de-website">
+    Welke persoonsgegevens verzamelen wij van u tijdens uw bezoek aan de
+    Website?
+  </h2>
+
+  <p> Technische informatie (IP-adres, browsertype, geografische locatie en
+    besturingssysteem) en informatie met betrekking tot uw browsing gedrag (vb.
+    welke links u aanklikt op de Website, hoe lang of hoeveel keer u een pagina
+    bezoekt). </p>
+  <p> Identiteitsgegevens (naam, (leverings)adres, e-mailadres, telefoonnummer,
+    facturatiegegevens). </p>
+
+  <h2 id="hoe-komen-wij-aan-uw-persoonsgegevens">
+    Hoe komen wij aan uw persoonsgegevens?
+  </h2>
+
+  <p> Wanneer u onze Website bezoekt, verzamelen wij via cookies (<a
+      href="/nl/cookie-policy">zie verder</a>) technische informatie en
+    informatie over uw browsing gedrag. </p>
+  <p> Wanneer u een bestelling plaatst op onze Website, dan verzamelen wij via het
+    bestelformulier uw identiteitsgegevens ende informatie m.b.t. de bestelde
+    producten. </p>
+  <p> Wanneer u zich inschrijft op onze nieuwsbrief en/of (gepersonaliseerde)
+    reclame-mailing, dan bekomen wij uw e-mailadres via het invulformulier. </p>
+  <p> Wanneer u ons contactformulier gebruikt, dan verzamelen wij uw
+    contactgegevens via het invulformulier. Dit is nodig om op de correcte
+    manier met u te kunnen communiceren. </p>
+
+  <h2 id="waarom-verwerken-wij-uw-persoonsgegevens-doeleinden">
+    Waarom verwerken wij uw persoonsgegevens? (doeleinden)
+  </h2>
+
+  <p> Uw technische informatie gebruiken wij voor (i) het verzorgen en verbeteren
+    van de Website, (ii) het opmaken van anonieme statistieken en (iii) het
+    verbeteren van uw gebruikservaring bij het bezoeken van de Website. </p>
+  <p> Uw identiteitsgegevens gebruiken we om (i) de geplaatste bestelling te
+    kunnen uitvoeren, m.n. te leveren en te factureren en/of (ii) u een
+    nieuwsbrief en/of (gepersonaliseerde) reclame toe te sturen. </p>
+
+  <h2 id="mogen-wij-uw-persoonsgegevens-verwerken-rechtsgrond">
+    Mogen wij uw persoonsgegevens verwerken? (rechtsgrond)
+  </h2>
+
+  <p> Uw technische informatie mogen wij verwerken omdat u enerzijds hiervoor
+    toestemming geeft via de ‘cookie’-banner (<a href="{{ path('cookie_policy') }}">zie
+      verder</a>) en anderzijds omdat het kadert in ons gerechtvaardigd belang
+    om onze Website en dienstverlening voortdurend te verbeteren. </p>
+  <p> Uw identiteitsgegevens en uw bestelde producten mogen wij verwerken met het
+    oog op de uitvoering van onze overeenkomst, m.n. uw bestelling. Zonder uw
+    naam, adresgegevens en dergelijke meer kunnen wij onmogelijk uw bestelling
+    tot bij u brengen. Het is dan ook noodzakelijk dat wij deze gegevens van u
+    vragen. Vaak dienen wij als onderneming uw persoonsgegevens te verwerken en
+    verder bij te houden omdat wij hiertoe wettelijk verplicht zijn. </p>
+  <p> Voor het versturen van onze nieuwsbrief of (gepersonaliseerde) reclame
+    zullen wij u op voorhand uw toestemming vragen. U heeft altijd de
+    mogelijkheid om deze toestemming terug in te trekken, waarna wij u
+    dergelijke reclame niet langer zullen versturen. </p>
+
+  <h2 id="delen-wij-uw-persoonsgegevens-met-derden">
+    Delen wij uw persoonsgegevens met derden?
+  </h2>
+
+  <p> Indien dit noodzakelijk is ter verwezenlijking van de vooropgestelde
+    doeleinden, zullen uw persoonsgegevens worden gedeeld met derde ontvangers:
+    denk maar bijvoorbeeld aan de maker/hoster van onze Website of de bank/
+    betalingsdienstverlener die het betalen van uw bestelling mogelijk maakt en
+    tussen zal komen van zodra u met uw kaart de betaling wenst uit te
+    voeren. </p>
+  <p> Wij garanderen dat alle derde ontvangers de nodige technische en
+    organisatorische maatregelen zullen nemen ter bescherming van de
+    persoonsgegevens. </p>
+
+  <h2 id="hoe-lang-houden-wij-uw-persoonsgegevens-bij">
+    Hoe lang houden wij uw persoonsgegevens bij?
+  </h2>
+
+  <p> Uw persoonsgegevens worden enkel verwerkt voor zo lang als nodig om de
+    doeleinden te bereiken. Zij zullen dus worden bewaard gedurende de termijn
+    die noodzakelijk is om de doeleinden te realiseren of aan de wettelijke
+    vereisten te voldoen (onder andere op het gebied van boekhouding). </p>
+
+  <h2
+    id="welke-zijn-uw-rechten-recht-van-inzage-verbetering-wissing-beperking-bezwaar-en-overdraagbaarheid-van-persoonsgegevens">
+    Welke zijn uw rechten? (Recht van inzage, verbetering, wissing, beperking,
+    bezwaar en overdraagbaarheid van persoonsgegevens)
+  </h2>
+
+  <p> U heeft te allen tijde recht op inzage van uw persoonsgegevens en kan die
+    (laten) verbeteren indien ze onjuist of onvolledig zijn, ze laten
+    verwijderen, de verwerking ervan laten beperken en/of bezwaar te maken tegen
+    de verwerking ervan met inbegrip van profilering. </p>
+  <p> Indien de verwerking van uw persoonsgegevens gebaseerd is op uw voorafgaande
+    toestemming, beschikt u natuurlijk over het recht om die toestemming in te
+    trekken. </p>
+  <p> Bovendien, heeft u het recht om een kopie (in een gestructureerde, gangbare
+    en machinaal leesbare vorm) van uw persoonsgegevens te bekomen en de
+    persoonsgegevens te laten doorsturen. </p>
+  <p> Om die rechten uit te oefenen kunt u: </p>
+  <ul>
+    <li>zelf de instellingen van uw klantenaccount aan te passen; en/of</li>
+    <li>een e-mail te verzenden naar het volgende e-mailadres: info@naarschoolinvlaanderen.be (Hierbij
+      kan een extra identificatie gevraagd worden ter legitimatie).
+    </li>
+  </ul>
+
+  <h2 id="waar-kunt-u-een-klacht-indienen">
+    Waar kunt u een klacht indienen?
+  </h2>
+
+  <p> U beschikt over het recht om een klacht in te dienen bij de Commissie voor
+    de Bescherming van de Persoonlijke Levenssfeer (Drukpersstraat 35, 1000
+    Brussel - commission@privacycommission.be). </p>
+
+{% endblock %}
+
+{% block footer %}
+  <footer class="text-muted">
+    <div class="container">
+      <p>
+        {% include('includes/footer.html.twig') %}
+      </p>
+    </div>
+  </footer>
+{% endblock %}

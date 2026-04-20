@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'app.index.title' | trans }}{% endblock %}
+
+{% block stylesheets %}
+  {{ encore_entry_link_tags('base') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ encore_entry_script_tags('base') }}
+{% endblock %}
+
+{% block main_classes %}container{% endblock %}
+
+{% block body %}
+    <a href="{{ path('index') }}"> 
+        <img class="mb-4 mt-4" src="{{ asset('build/logo-nsiv.svg') }}" height="50" alt="Logo NSIV">
+    </a>
+    <div class="mt-5">
+        <h2> Oeps... Er ging iets mis. </h2>
+    </div>
+
+    <p class="m-2">
+        <img class="rounded mx-auto d-block" style="width: 65%;" src="{{ asset('build/home-img.png') }}">
+    </p>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="text-center p-5 mt-5">
+            <div class="p-3">
+                {% include('includes/footer.html.twig') %}
+            </div>
+        </div>
+    <div>
+{% endblock %}

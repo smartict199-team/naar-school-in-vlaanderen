@@ -1,0 +1,156 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block body_classes %}ea index index-User ea-content-width-normal ea-sidebar-width-normal{% endblock %}
+
+{% block page_title %}{{ 'app.admin.user.index.page_title' | trans }}{% endblock %}
+{% block page_actions %}
+    {% if crudActions is defined %}
+        {% for action in crudActions %}
+            <a class="action-new btn btn-primary" href="{{ action.action }}">{{ action.label | trans }}</a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="datagrid-header-tools">
+        <div class="datagrid-search">
+            {% block search_form %}
+                <div class="form-action form-action-search">
+                    <form method="get">
+                {# reset the referrer and page number whenever a new query is performed #}
+                {% set query_parameters = ea.request.query.all|merge({
+                    referrer: null, page: 1,
+                }) %}
+
+                {# browsers remove the query string when submitting forms using GET;
+                                       that's why all query string parameters are added as hidden form fields #}
+                {% for paramName, paramValue in query_parameters|ea_flatten_array %}
+                    <input type="hidden" name="{{ paramName }}" value="{{ paramValue }}">
+                {% endfor %}
+
+                <div class="form-group">
+                    <div class="form-widget">
+                        <input class="form-control" type="search" name="query"
+                               value="{{ app.request.get('query') ?? '' }}"
+                               placeholder="{{ 'action.search'|trans(ea.i18n.translationParameters, 'EasyAdminBundle') }}">
+
+                        {% if app.request.get('query') %}
+                            <a href="{{ ea_url().unset('query') }}" class="action-search-reset">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                    </form>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div class="content-panel">
+        <div class="content-panel-body with-rounded-top with-min-h-250 without-padding {{ not has_page_footer ? 'without-footer' }}">
+            <table class="table datagrid with-rounded-top ">
+                <thead>
+                <tr>
+                    <th class="  text-"><span>{{ 'app.admin.user.index.first_name' | trans }}</span></th>
+                    <th class="  text-"><span>{{ 'app.admin.user.index.last_name' | trans }}</span></th>
+                    <th class="  text-"><span>{{ 'app.admin.user.index.email' | trans }}</span></th>
+                    <th class="  text-"><span>{{ 'app.admin.user.index.schools' | trans }}</span></th>
+                    <th class="  text-"><span>{{ 'app.admin.user.index.created_at' | trans }}</span></th>
+                    <th dir="ltr"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for userData in users %}
+                    <tr>
+                        <td class=" text- field-text">{{ userData.item.firstName }}</td>
+                        <td class=" text- field-text">{{ userData.item.lastName }}</td>
+                      <td class=" text- field-text"><a href="mailto:{{ userData.item.email }}">{{ userData.item.email }}</a></td>
+                        <td class=" text- field-text">
+                            {% for school in userData.item.schools %}
+                                {{ school.name }}
+                                {% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        </td>
+                        <td class=" text- field-text">{{ userData.item.createdAt | date('d/m/Y h:i:s') }}</td>
+                        <td class="actions">
+                            {% if userData.crudActions is defined %}
+                                {% for label, action in userData.crudActions %}
+                                    <a class="action-edit" href="{{ action }}" formaction="{{ action }}">{{ label | trans }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            {% if is_granted(constant('App\\Model\\Role::ROLE_DELETE_USER')) %}
+                                <a class="action-delete text-danger" href="{{ path('user_delete', {'id': userData.item.id}) }}" formaction="{{ path('user_delete', {'id': userData.item.id}) }}" data-toggle="modal" data-target="#modal-delete">{{ 'app.admin.user.delete.button' | trans }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+            <section class="content-panel-footer without-padding">
+                <div class="list-pagination">
+                    <div class="list-pagination-counter">
+                        <strong>{{ pagerfanta.nbResults }} {% if  pagerfanta.nbResults == 1 %}{{ 'app.admin.user.index.result'|trans }}{% else %}{{ 'app.admin.user.index.results'|trans }}{% endif %}</strong>
+                    </div>
+
+                    <nav class="pager list-pagination-paginator first-page last-page">
+                        <ul class="pagination">
+                            {{ pagerfanta(pagerfanta, 'twitter_bootstrap4') }}
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+    </div>
+    <form method="post" id="delete-form" style="display: none">
+        <input type="hidden" name="token" value="OtT6ac4L9Hu-EKYHQJphLoAwXFe-Dm4MVvASCTiYL6g">
+    </form>
+    <div id="modal-delete" class="modal fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Weet je zeker dat je dit item wilt verwijderen?</h4>
+                    <p>Deze actie kan niet ongedaan worden gemaakt.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">
+                        <span class="btn-label">Annuleren</span>
+                    </button>
+
+                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-delete-button" form="delete-form">
+                        <span class="btn-label">Verwijderen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function() {
+            $('.action-delete').on('click', function(e) {
+                e.preventDefault();
+                const formAction = $(this).attr('formaction');
+
+                $('#modal-delete').modal({ backdrop: true, keyboard: true })
+                    .off('click', '#modal-delete-button')
+                    .on('click', '#modal-delete-button', function () {
+                        let deleteForm = $('#delete-form');
+                        deleteForm.attr('action', formAction);
+                        deleteForm.submit();
+                    });
+            });
+
+        });
+    </script>
+
+    {% if app.request.get('query') is not empty %}
+        <script type="text/javascript">
+            const search_query = "{{ ea.search.query|default('')|e('js') }}";
+            // the original query is prepended to allow matching exact phrases in addition to single words
+            $('#main').find('table tbody td:not(.actions)').highlight($.merge([search_query], search_query.split(' ')));
+        </script>
+    {% endif %}
+{% endblock %}

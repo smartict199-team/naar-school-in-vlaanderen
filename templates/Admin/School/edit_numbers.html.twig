@@ -1,0 +1,335 @@
+{% form_theme form 'Admin/School/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block head_stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block content_header %}
+  <div class="d-flex flex-row justify-content-between align-content-center w-100">
+    <div class="content-header-title">
+      {% if has_page_title %}
+        <h1 class="title">
+          {% block page_title %}{{ school.name }}{% endblock %}
+          &nbsp;&nbsp;
+          <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <div class="btn-group" role="group">
+              <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                {{ 'app.admin.schools.general.school_year' | trans }} {{ schoolYear.startYear }} - {{ schoolYear.endYear }}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                {% for schoolYearLink in schoolYearLinks %}
+                  <a class="dropdown-item {% if (schoolYearLink.year.id == schoolYear.id) %}active{% endif %}"
+                     href="{{ schoolYearLink.url }}">{{ 'app.admin.schools.general.school_year' | trans }} {{ schoolYearLink.year.startYear }}
+                    - {{ schoolYearLink.year.endYear }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <br><br>
+          <span class="content-header-help">
+            {{ ('app.admin.schools.general.levels.' ~ school.level) | trans }} -
+            {{ ('app.admin.schools.general.types.' ~ school.type) | trans }} -
+            {{ school.address }}, {{ school.postalCode }} {{ school.city }}
+          </span>
+          <br>
+          <br>
+          {% include 'Admin/School/menu.html.twig' with {activeMenuItem: 'editNumbers'} %}
+        </h1>
+      {% endif %}
+    </div>
+
+    {% block page_actions_wrapper %}
+      <div class="page-actions">
+        {% block page_actions %}
+          <a href="{{ exportUrl }}" class="btn"><i class="fa fa-download"></i> {{ 'app.admin.menu.export_numbers' | trans }}</a>
+          <button class="action-saveAndReturn btn btn-primary action-save" type="submit" form="school_educations">
+            <span class="btn-label">{{ 'app.admin.general.save' | trans }}</span>
+          </button>
+        {% endblock %}
+      </div>
+    {% endblock %}
+  </div>
+{% endblock content_header %}
+
+{% block main %}
+  <div class="content-panel">
+    <div class="content-panel-body with-background without-header without-footer">
+      {{ form_start(form, {'attr': {'id': 'school_educations', 'onsubmit': 'setFormSubmitting()', 'autocomplete': 'off'}}) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+  <script src="{{ asset('bundles/easyadmin/form-type-collection.js') }}"></script>
+{% endblock %}
+
+{% block body_javascript %}
+  <script>
+      var formSubmitting = false;
+      var setFormSubmitting = function () {
+          formSubmitting = true;
+      };
+      var formData = $('#school_educations').serialize();
+      var isDirty = function () {
+          return formData !== $('#school_educations').serialize()
+      }
+
+      window.onload = function () {
+          window.addEventListener("beforeunload", function (e) {
+              if (formSubmitting || !isDirty()) {
+                  return undefined;
+              }
+
+              var confirmationMessage = 'Je gaat de pagina verlaten, wijzigingen zullen niet bewaard worden';
+
+              (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+              return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+          });
+      };
+
+      function checkAboveTwentyPercent(event, originalValue) {
+        let element = event.target;
+
+        if (element.oldValue === undefined) {
+          element.oldValue = originalValue;
+        }
+
+        let total = 0
+        element.closest('.form-widget').querySelectorAll('.js-underrepresented-student-seats-percentage input').forEach((element) => {
+            total += parseInt(element.value);
+        });
+
+        if (total > 20) {
+          alert('Totaal van de ondervertegenwoordigde groepen mag niet meer dan 20 zijn.');
+          element.value = element.oldValue;
+          return;
+        }
+
+        element.oldValue = element.value;
+      }
+
+  </script>
+
+  <script>
+      var toggleInput = $('[data-toggle-name]');
+      toggleInput.on('keyup change', function () {
+          toggleFields($(this).find('input'), $(this).attr('data-toggle-name'));
+      });
+
+      toggleInput.each(function (key, formField) {
+          toggleFields($(formField).find('input'), $(formField).attr('data-toggle-name'));
+      });
+
+      function toggleFields(el, name) {
+          var fieldFilledIn = el.val() !== '';
+          var formRow = el.closest('.form-row');
+          var containers = formRow.find('[data-toggle="'+name+'"]')
+
+          containers.each(function(key, container) {
+              var input = $(container).find('input');
+              if (fieldFilledIn) {
+                  var restoreValue = input.attr('data-restore');
+                  if (restoreValue > 0) {
+                    input.val(restoreValue);
+                    input.trigger('change');
+                  }
+                  input.attr('readonly', false);
+              } else {
+                  input.attr('data-restore', input.val());
+                  input.val('');
+                  input.trigger('change');
+                  input.attr('readonly', true);
+              }
+          })
+      }
+
+      var capacityReachedInput = $('.js-capacity-reached input');
+      capacityReachedInput.on('change', function (event) {
+          var input = $(this);
+          var checked = input.prop('checked');
+
+          if (!checked) {
+            input.prop('checked', !checked);
+            var modal = $(input.attr('data-target'));
+            modal.modal('show');
+            event.preventDefault();
+          }
+
+          toggleCapacityReachedAt(input)
+      })
+
+      capacityReachedInput.each(function (key, value) {
+          toggleCapacityReachedAt($(value))
+      })
+
+      function toggleCapacityReachedAt(el) {
+          var row = el.closest('.form-row')
+          var field = row.find('.js-capacity-reached-at');
+
+          if (el.is(':checked')) {
+              field.removeClass('invisible');
+              return;
+          }
+
+          field.addClass('invisible');
+      }
+
+      var capacityReachedAtDate = $('.js-capacity-reached-at select');
+      capacityReachedAtDate.on('change', function () {
+          setCapacityReachedDate($(this));
+      })
+
+      capacityReachedAtDate.each(function (key, value) {
+          setCapacityReachedDate($(value));
+      })
+
+      function setCapacityReachedDate(el) {
+          var row = el.closest('.form-row')
+          var idPrefix = el.parent().attr('id');
+          var dateFields = ['day', 'month', 'year'];
+          var timeFields = ['hour', 'minute'];
+
+          var dateParts = [];
+          dateFields.forEach(function (fieldName) {
+              var value = $('#' + idPrefix + '_date_' + fieldName).val();
+              dateParts.push(value.padStart(2, '0'));
+          });
+
+          var timeParts = [];
+          timeFields.forEach(function (fieldName) {
+              var value = $('#' + idPrefix + '_time_' + fieldName).val();
+              timeParts.push(value.padStart(2, '0'));
+          });
+
+          row.find('.js-capacity-reached-at-date').text(dateParts.join('/') + ' ' + timeParts.join(':'))
+      }
+
+      var indicatorStudentSeatsPercentageInput = $('.js-indicator-student-seats-percentage input, .js-capacity input');
+      indicatorStudentSeatsPercentageInput.on('change keyup', function () {
+        displayIndicatorStudentCapacity($(this));
+        toggleStudentSeatsTaken($(this));
+      })
+
+      indicatorStudentSeatsPercentageInput.each(function (key, value) {
+          displayIndicatorStudentCapacity($(value));
+          toggleStudentSeatsTaken($(value));
+      })
+
+      var underrepresentedStudentSeatsPercentage = $('.js-underrepresented-student-seats-percentage input, .js-capacity');
+      $('.form-row-container').on('change keyup', '.js-underrepresented-student-seats-percentage input, .js-capacity', function () {
+        displayUnderrepresentedStudentCapacity($(this));
+        toggleStudentSeatsTaken($(this));
+      })
+
+      underrepresentedStudentSeatsPercentage.each(function (key, value) {
+        displayUnderrepresentedStudentCapacity($(value));
+        toggleStudentSeatsTaken($(value));
+      })
+
+      var monitoredFields = $('#school_educations input[type="text"]');
+
+      function toggleStudentSeatsTaken(el) {
+          var row = el.closest('.form-row')
+          var studentSeats = row.find('.js-student-seats-taken input');
+          var capacity = row.find('.js-capacity input').val();
+          var indicatorStudentPercentage = row.find('.js-indicator-student-seats-percentage input').val();
+
+          if (capacity !== '' && indicatorStudentPercentage !== '') {
+              var restoreVal = studentSeats.attr('data-restore');
+              if (restoreVal) {
+                  studentSeats.val(restoreVal);
+                  studentSeats.attr('data-restore', '')
+              }
+              studentSeats.attr('readonly', false);
+          } else {
+              var val = studentSeats.val();
+              if (val !== '') {
+                studentSeats.attr('data-restore', val)
+              }
+              studentSeats.attr('readonly', true);
+              studentSeats.val('');
+          }
+      }
+
+      function displayIndicatorStudentCapacity(el) {
+        var row = el.closest('.form-row')
+        var capacity = row.find('.js-capacity input').val();
+        var indicatorStudentPercentage = row.find('.js-indicator-student-seats-percentage input').val();
+
+        var container = row.find('.js-indicator-student-capacity');
+        var indicatorStudents = Math.round((parseInt(capacity) * parseFloat(indicatorStudentPercentage)) / 100);
+        container.find('strong').text(indicatorStudents);
+
+        if (indicatorStudents > 0) {
+          container.removeClass('invisible');
+        } else {
+          container.addClass('invisible');
+        }
+      }
+
+      function displayUnderrepresentedStudentCapacity(el) {
+        var row = el.closest('.form-row-container')
+        var capacity = row.find('.js-capacity input').val();
+        var underrepresentedStudentPercentage = 0;
+        row.find('.js-underrepresented-student-seats-percentage input').each(function () {
+          underrepresentedStudentPercentage += parseInt($(this).val());
+        });
+
+        var container = row.find('.js-underrepresented-student-capacity');
+        var underrepresentedStudents = Math.round((parseInt(capacity) * parseFloat(underrepresentedStudentPercentage)) / 100);
+        container.find('strong').text(underrepresentedStudents);
+
+        if (underrepresentedStudents > 0) {
+          container.removeClass('invisible');
+        } else {
+          container.addClass('invisible');
+        }
+      }
+
+      var remainingSeatsTriggerInputs = $('#school_educations input[type="text"]');
+      remainingSeatsTriggerInputs.on('keyup change', function () {
+          calculateRemainingSeats($(this).closest('.form-row-container'));
+      });
+
+      $('.form-row-container').each(function (key, value) {
+          calculateRemainingSeats($(value));
+      });
+
+      function calculateRemainingSeats(row) {
+        var capacity = row.find('.js-capacity input').val();
+        var indicatorStudentSeats = row.find('.js-indicator-student-seats-taken input').val();
+
+        if (row.find('.js-indicator-student-seats-taken input').length === 0) {
+          indicatorStudentSeats = 0;
+          row.find('.js-underrepresented-student-seats-taken input').each(function () {
+            indicatorStudentSeats += parseInt($(this).val());
+          });
+        }
+
+        var studentSeats = row.find('.js-student-seats-taken input').val();
+        var remainingCapacity =  capacity - indicatorStudentSeats - studentSeats;
+        var remainingCapacityElement = row.find('.js-remaining-student-capacity');
+
+        if (capacity === ''
+            || indicatorStudentSeats === ''
+            || studentSeats === ''
+            || capacity === undefined
+            || indicatorStudentSeats === undefined
+            || studentSeats === undefined
+        ) {
+            remainingCapacityElement.addClass('invisible')
+        } else {
+          remainingCapacityElement.find('strong').text(remainingCapacity);
+          remainingCapacityElement.removeClass('invisible')
+        }
+      }
+
+      function uncheckCapacityReached(el) {
+          el.closest('.form-row').find('.js-capacity-reached input').prop('checked', false);
+          toggleCapacityReachedAt(el);
+          return false;
+      }
+  </script>
+{% endblock %}

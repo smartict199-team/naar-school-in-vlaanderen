@@ -1,0 +1,374 @@
+app:
+    admin:
+        menu:
+            schools: Scholen
+            schools_overview: Overzicht
+            edit_educations: Opleidingen
+            edit_numbers: Cijfers
+            edit_school: Algemene gegevens
+            export_numbers: Cijfers exporteren
+            logs: Logs
+            users: Gebruikers
+            school_years: Schooljaren
+            exports: Exports
+            LOP: LOP Bestandssysteem
+            bulk_import: Scholen in bulk importeren
+        login:
+            button: Aanmelden
+        user:
+            submit: Opslaan
+            delete:
+                button: Verwijderen
+                flash:
+                    user_deleted: De gebruiker werd verwijderd.
+            create_new: Nieuwe gebruiker
+            index:
+                first_name: Voornaam
+                last_name: Achternaam
+                email: Email
+                schools: Scholen
+                created_at: Aangemaakt op
+                page_title: Gebruikers
+                results: Resultaten
+                result: Resultaat
+            create:
+                email: Email
+                first_name: Voornaam
+                role: Rol
+                last_name: Achternaam
+                password: Wachtwoord
+                schools: Scholen
+                page_title: Gebruiker aanmaken
+                flash:
+                    user_exists: Er bestaat al een gebruiker met deze gegevens.
+                    user_created: Gebruiker aangemaakt.
+                roles:
+                    super_admin: Super admin
+                    group_admin: Groep admin (beheerders / opleidingen / cijfers)
+                    school_admin: School admin (opleidingen / cijfers)
+            edit:
+                page_title: Gebruiker bewerken
+                button: Bewerken
+                flash:
+                    user_updated: De gegevens van de gebruiker werden aangepast.
+        schools:
+            general:
+                address: Straat en nr.
+                postal_code: Postcode
+                region: Hoofdgemeente
+                region_help: "Bijvoorbeeld: Hasselt, Aarschot, Genk, ... Schrijf de naam voluit en gebruik een streepje indien nodig, bv \"Sint-Truiden\" i.p.v. St-Truiden of Sint Truiden"
+                city_help: "Bijvoorbeeld: Sint-Lambrechts-Herk, Brustem, ... Indien het om een centrumschool gaat gebruik je \"Stadsnaam Centrum\", bijvoorbeeld Sint-Truiden (Centrum)"
+                city: Deelgemeente
+                email: E-mailadres
+                phone_number: Telefoonnummer
+                website: Website
+                school_year: Schooljaar
+                name: Naam
+                type: Niveau
+                establishment_number: Instellingsnummer
+                institution_number: Vestigingsnummer
+
+                pre_primary_education:
+                    regular_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    special_needs_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    reception_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen
+                        student_seats_taken: Zittende leerlingen # NIND
+                        student_seats_taken_urg: Zittende leerlingen # NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                secondary_education:
+                    regular_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    special_needs_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    reception_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen
+                        student_seats_taken: Zittende leerlingen # NIND
+                        student_seats_taken_urg: Zittende leerlingen # NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                primary_education:
+                    regular_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    special_needs_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+                    reception_education:
+                        capacity: Capaciteit
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_taken: Zittende leerlingen
+                        student_seats_taken: Zittende leerlingen # NIND
+                        student_seats_taken_urg: Zittende leerlingen # NOVG
+                        capacity_reached: Capaciteit bereikt
+                        capacity_reached_at: Capaciteit bereikt op
+
+                indicator_student_seats_percentage_visible: Tonen
+                amount_of_indicator_students: Waarvan <strong></strong> indicator leerlingen
+                amount_of_underrepresented_students: Waarvan <strong></strong> leerlingen OVG
+                types:
+                    pre_primary_education: Kleuter
+                    only_primary_education: Lager
+                    primary_education: Kleuter & Lager
+                    secondary_education: Secundair
+                level: Type
+                levels:
+                      regular_education: Gewoon onderwijs
+                      special_needs_education: Buitengewoon onderwijs
+                remaining_student_capacity: In totaal nog <strong></strong> vrije plaatsen
+                cancel: Annuleren
+                confirm: Bevestigen
+            school_level:
+                types:
+                    primary_education: Lager
+                    pre_primary_education: Kleuter
+                    secondary_education: Secundair
+                levels:
+                    regular_education: Gewoon onderwijs
+                    special_needs_education: Buitengewoon onderwijs
+                    reception_education: Onthaalonderwijs
+            index:
+                title: Scholen
+                delete: School verwijderen
+                edit: Gegevens bewerken
+                edit_educations:  Opleidingen
+                edit_numbers:  Cijfers
+                export_numbers:  Cijfers exporteren
+                year:  '%startYear% - %endYear%'
+                current_year:  '%startYear% - %endYear% <small class="text-muted">(huidig)</small>'
+            edit:
+                success: School gegevens bijgewerkt
+                save: Opslaan
+            create:
+                success: School toegevoegd
+                save: Nieuwe school toevoegen
+            numbers:
+                success: Cijfers opgeslaan
+                error: Fout bij het opslaan van de cijfers
+            educations:
+                success: Opleidingen opgeslaan
+                error: Fout bij het opslaan van opleidingen
+                form_types_visible_on_frontend: Vormtypes weergeven op de website
+                finalities_visible_on_frontend: Finaliteiten weergeven op de website
+                hidden: Verbergen voor ouders indien deze richting niet wordt aangebodenvoor dit specifieke schooljaar
+                pre_primary_education:
+                    regular_education:
+                        grade: Geboortejaar
+
+                    special_needs_education:
+                        type: Type
+
+                    reception_education:
+                        grade: ' '
+
+                primary_education:
+                    regular_education:
+                        grade: Leerjaar
+                    reception_education:
+                        grade: ' '
+                    special_needs_education:
+                        type: Type
+
+                secondary_education:
+                    administrative_groups_placeholder: Komma gescheiden. Bv. 123,456
+                    regular_education:
+                        administrative_groups: Administratieve groep(en)
+                        name: Opleiding
+                        form_type: Vormtype
+                        finality: Finaliteit
+                    reception_education:
+                        administrative_groups: Administratieve groep(en)
+                        name: Opleiding
+                        form_type: Vormtype
+                        finality: Finaliteit
+                    special_needs_education:
+                        administrative_groups: Administratieve groep(en)
+                        name: Opleiding
+                        type: Type
+                        phase: Fase
+                        form_type: Vormtype
+                        grade: Leerjaar
+                info_administrative_groups: De lijst van administratieve groepen kan geraadpleegd worden op de link %link%
+                import:
+                    title: Opleidingen synchroniseren
+                    description: |
+                        Je kan om te starten alle opleidingen voor deze vestiging inladen uit de database.<br>Op deze manier moet je niet alle opleidingen manueel invullen.
+                    button_text: Opleiding importeren
+                    error: Geen resultaten gevonden in onderwijskiezer voor vestiging met nummer(s) %establishmentNumber%
+                confirm_uncheck_capacity_reached: Ben je zeker dat je de volzetverklaring wil uitschakelen?
+                capacity:
+                    indicator_tooltip: Indien je geen capaciteit moet bepalen, hier niets invullen (ook geen 0). In de front office komt dan de weergave 'nog plaats'
+                underrepresented_groups:
+                    title: Ondervertegenwoordigde groepen
+                    description: Beschrijving
+                    percentage: Percentage OVG
+                    seated: Zittende leerlingen OVG
+                copy:
+                    button_text: Kopieer van ander jaar
+                    modal_title: Kopieer van ander jaar
+                    modal_body: Hiermee kan je de opleidingen kopieren uit een ander schooljaar. Let op dat alle opleidingen van het huidige jaar %year% verwijderd worden.
+                    modal_education_count: "{1}Er wordt 1 opleiding verwijderd.|[0,Inf[Er worden %count% opleidingen verwijderd."
+                    form:
+                        confirm: Ik ben zeker dat ik alle huidige opleidingen wil verwijderen
+                        success: Opleidingen gekopieerd
+                        error: Fout bij het kopiëren van de opleidingen
+        audit_logs:
+            index:
+                general:
+                    user_id: Gebruiker ID
+                    user_email: Gebruiker email
+                    name: Data
+                    changes: Wijziging
+                    created_at: Datum
+                    school_name: School
+                    school_year: Schooljaar
+                    field: Actie
+                    old_value: Oude waarde
+                    new_value: Nieuwe waarde
+                    panel:
+                        general: Algemeen
+                        school: School
+                        changes: Wijzigingen
+                value:
+                    bool:
+                        1: Ja
+                        0: Nee
+                filter:
+                    created_at: Datum
+                    field: Actie
+                    fields:
+                        capacity: Capaciteit
+                        student_seats_taken: Zittende leerlingen NIND
+                        student_seats_taken_urg: Zittende leerlingen NOVG
+                        capacity_reached: Capaciteit bereikt
+                        hidden: Verborgen
+                        indicator_student_seats_percentage: Percentage IND
+                        indicator_student_seats_percentage_visible: Indicator plaatsen percentage zichtbaar
+                        indicator_student_seats_taken: Zittende leerlingen IND
+                        underrepresented_student_seats_percentage: Percentage OVG
+                        underrepresented_student_seats_percentage_visible: Ondervertegenwoordigde plaatsen percentage zichtbaar
+                        underrepresented_student_seats_taken: Zittende leerlingen OVG
+                        underrepresented_description: Naam OVG
+
+        general:
+            save: Opslaan
+            settings: Instellingen
+            edit: Bewerken
+            educations: Opleidingen
+        school_year:
+            title: Schooljaar
+            create: Nieuw schooljaar
+            index:
+                start_year: Start jaar
+                end_year: Eind jaar
+                visible_backend: Zichtbaar in back-end
+                visible_frontend: Zichtbaar in front-end
+        export:
+            index:
+                page_title: Exporteer
+                no_school_years: Er zijn geen actieve schooljaren
+
+    index:
+        title: Naar school in Vlaanderen
+        intro:
+            title: Ontdek in welke scholen nog vrije plaatsen beschikbaar zijn
+            subtitle: Op deze website kan je bij de deelnemende gemeenten zoeken naar vrije plaatsen.
+            step_list: |
+                <li class="mb-2"><strong class="steps">Stap 1:</strong> Selecteer aan de linkerkant de <strong>steden/gemeenten</strong> waar je je kind(eren) graag naar school laat gaan</li>
+                <li class="mb-2"><strong class="steps">Stap 2:</strong> Selecteer het <strong>schooljaar</strong></li>
+                <li class="mb-2"><strong class="steps">Stap 3:</strong> Selecteer het <strong>onderwijsniveau</strong>: kleuter, lager of secundair</li>
+                <li><strong class="steps">Stap 4:</strong> Selecteer het onderwijs <strong>type</strong>: gewoon onderwijs, buitengewoon onderwijs of OKAN</li>
+                <li class="mt-4">Na je keuze krijg je meteen de resultaten te zien. <br/>Deze kan je vervolgens nog verder verfijnen a.d.h.v. de filters.</li>
+        form:
+            label:
+                city: Selecteer de steden/gemeenten waar je je kind(eren) graag naar school laat gaan
+                school_year: Voor welk schooljaar zoek je plaatsen?
+                school_level: Selecteer het onderwijs type
+                type: Selecteer het onderwijsniveau
+                school_type: Selecteer het type
+                school_grade_pre_primary: Selecteer het geboortejaar
+                school_grade_primary: Selecteer het leerjaar
+                school_level_secondary_regular_education: Selecteer het leerjaar
+                school_level_secondary_special_needs_education: Selecteer de opleidingsvorm
+                education: Selecteer de opleiding
+                next: Volgende
+                filter: Toon resultaten
+                school_level_secondary_reception_education: Selecteer de opleidingsvorm
+                school_phase_type: Selecteer de fase
+            level:
+                regular_education: Gewoon
+                special_needs_education: Buitengewoon
+                reception_education: Onthaalonderwijs
+            type:
+                pre_primary_education: Kleuter
+                primary_education: Lager
+                secondary_education: Secundair
+        results:
+            no_results: Geen resultaten gevonden voor je zoekopdracht.
+            result:
+                capacity_label: plaatsen
+                capacity_label_singular: plaats
+                unknown_capacity: Nog plaats
+                no_capacity: Volzet
+                updated_at: Laatst aangepast op
+                capacity_reached_at: op
+                numbers_unavailable: Nog geen cijfers beschikbaar
+                indicator_numbers: Waarvan %capacity% plaatsen voor indicator leerlingen.
+                indicator_number: Waarvan %capacity% plaats voor indicator leerlingen.
+                underrepresented_number: "Waarvan %count% plaats voor %group%.|Waarvan %count% plaatsen voor %group%."
+                indicator_tooltip: Een leerling waarvan het gezin minstens één selectieve participatietoeslag, schooltoelage ontvangt of een beperkt inkomen heeft of waarvan de moeder geen diploma secundair onderwijs heeft.
+        show_results: Toon resultaten
+        change_filter: Wijzig filter
+        reset_filter: Wis filters
+    footer:
+        links:
+            cookie_policy: Cookie policy
+            disclaimer: Disclaimer
+            privacy_policy: Privacy Policy
+            from_yappa: Deze applicatie is mogelijk gemaakt door <a href="https://sint-truiden.be">Stad Sint-Truiden</a>, Limburgse LOP's, LOP Diest en LOP Aarschot i.s.m. <a href="https://onderwijskiezer.be">Onderwijskiezer</a> en <a href="https://yappa.be">Yappa</a>.
+    nav:
+        title: Naar school in Vlaanderen
+
+admin:
+    action:
+        move_item: Volgorde wijzigen

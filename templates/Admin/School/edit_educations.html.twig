@@ -1,0 +1,193 @@
+{% form_theme form 'Admin/School/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block head_stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block head_javascript %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('admin') }}
+{% endblock %}
+
+{% block content_header %}
+  <div class="d-flex flex-row justify-content-between align-content-center w-100">
+    <div class="content-header-title">
+      <h1 class="title">
+        {% block page_title %}{{ school.name }}{% endblock %}
+        &nbsp;&nbsp;<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ 'app.admin.schools.general.school_year' | trans }} {{ schoolYear.startYear }} - {{ schoolYear.endYear }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              {% for schoolYearLink in schoolYearLinks %}
+                <a class="dropdown-item {% if (schoolYearLink.year.id == schoolYear.id) %}active{% endif %}" href="{{ schoolYearLink.url }}">
+                  {{ 'app.admin.schools.general.school_year' | trans }} {{ schoolYearLink.year.startYear }} - {{ schoolYearLink.year.endYear }}
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <br><br>
+        <span class="content-header-help">
+          {{ ('app.admin.schools.general.levels.' ~ school.level) | trans }} -
+          {{ ('app.admin.schools.general.types.' ~ school.type) | trans }} -
+          {{ school.address }}, {{ school.postalCode }} {{ school.city }}
+        </span>
+        <br>
+        <br>
+        {% include 'Admin/School/menu.html.twig' with {activeMenuItem: 'editEducation'} %}
+      </h1>
+    </div>
+
+    {% block page_actions_wrapper %}
+      <div class="page-actions">
+        {% block page_actions %}
+
+          {% if school.type == constant('App\\Entity\\School::TYPE_SECONDARY_EDUCATION') %}
+            <button id="fetch-educations-btn"
+                    class="btn btn-primary"
+                    data-url="{{ path('admin_fetch_educations', { id: school.id, year: yearID}) }}">
+              {{ 'app.admin.schools.educations.import.button_text' | trans }}
+            </button>
+            <div id="fetch-educations-status" class="mt-2"></div>
+          {% endif %}
+
+          <a href="{{ exportUrl }}" class="btn"><i class="fa fa-download"></i> {{ 'app.admin.menu.export_numbers' | trans }}</a>
+          <button class="action-saveAndReturn btn btn-primary action-save" type="submit" form="school_educations">
+            <span class="btn-label">{{ 'app.admin.general.save' | trans }}</span>
+          </button>
+
+        {% endblock %}
+      </div>
+    {% endblock %}
+  </div>
+{% endblock content_header %}
+
+{% block main %}
+  {% if school.secondaryEducation and school.regularEducation %}
+    <div class="alert alert-info mb-3">
+      {{ 'app.admin.schools.educations.info_administrative_groups' | trans({'%link%': '<a href="https://data-onderwijs.vlaanderen.be/edulex/document.aspx?docid=9428" target="_blank">https://data-onderwijs.vlaanderen.be/edulex/document.aspx?docid=9428</a>'}) | raw }}
+    </div>
+  {% endif %}
+
+  {{ form_start(form, {'attr': {'id': 'school_educations', 'autocomplete': 'off', 'onsubmit': 'setFormSubmitting()'}}) }}
+  {% if form.formTypeVisibleOnFrontend is defined or form.finalityVisibleOnFrontend is defined%}
+    <div class="content-panel">
+      <div class="content-panel-body with-background without-header without-footer">
+        <h3>{{ 'app.admin.general.settings' | trans }}</h3>
+        {% if form.formTypeVisibleOnFrontend is defined %}
+          {{ form_row(form.formTypeVisibleOnFrontend) }}
+        {% endif %}
+
+        {% if form.finalityVisibleOnFrontend is defined %}
+          {{ form_row(form.finalityVisibleOnFrontend) }}
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="content-panel">
+    <div class="content-panel-body with-background without-header without-footer">
+      <div class="row m-0">
+        <h3 class="flex-fill">{{ 'app.admin.general.educations' | trans }}</h3>
+        <a href="" data-toggle="modal" data-target="#copy-schoolyear">
+          <button class="btn btn-primary flex-grow-0 flex-shrink-0">
+            <span class="btn-label">{{ 'app.admin.schools.educations.copy.button_text' | trans }}</span>
+          </button>
+        </a>
+      </div>
+      {{ form_row(form.educationsCollections) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+
+  <div class="modal fade" id="copy-schoolyear" tabindex="-1" role="dialog" aria-labelledby="copy-schoolyear" aria-hidden="true">
+    {{ form_start(cloneForm, {'attr': {'id': 'school_educations', 'autocomplete': 'off', 'novalidate': 'novalidate'}}) }}
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ 'app.admin.schools.educations.copy.modal_title' | trans }}</h5>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'app.admin.schools.educations.copy.modal_body' | trans({'%year%': schoolYear.startYear ~ '-' ~ schoolYear.endYear }) }}</p>
+          <p><strong>{{ 'app.admin.schools.educations.copy.modal_education_count' | trans({'%count%': educationCount }) }}</strong></p>
+          {{ form_label(cloneForm.year) }}
+          {{ form_widget(cloneForm.year) }}
+          {{ form_row(cloneForm.confirm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">{{ 'app.admin.schools.general.confirm' | trans }}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'app.admin.schools.general.cancel' | trans }}</button>
+        </div>
+      </div>
+    </div>
+    {{ form_end(cloneForm) }}
+  </div>
+
+  <script src="{{ asset('bundles/easyadmin/form-type-collection.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var fetchButton = document.getElementById('fetch-educations-btn');
+
+      if (fetchButton) {
+        fetchButton.addEventListener('click', function () {
+          var url = fetchButton.getAttribute('data-url');
+
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert('Onderwijsgegevens succesvol opgehaald!');
+                location.reload();
+              } else {
+                alert('Fout: ' + data.error);
+              }
+            })
+            .catch(error => {
+              alert('Er ging iets mis. Probeer het opnieuw.');
+              console.error('Error:', error);
+            });
+        });
+      }
+    });
+  </script>
+{% endblock %}
+
+{% block body_javascript %}
+  <script>
+    var formSubmitting = false;
+    var setFormSubmitting = function () {
+      formSubmitting = true;
+    };
+    var formData = $('#school_educations').serialize();
+    var isDirty = function () {
+      return formData !== $('#school_educations').serialize()
+    }
+
+    window.onload = function () {
+      window.addEventListener("beforeunload", function (e) {
+        if (formSubmitting || !isDirty()) {
+          return undefined;
+        }
+
+        var confirmationMessage = 'Je gaat de pagina verlaten, wijzigingen zullen niet bewaard worden';
+
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
+      });
+    };
+
+    {% if not cloneForm.vars.valid %}
+    $('#copy-schoolyear').modal().show();
+    {% endif %}
+  </script>
+{% endblock %}

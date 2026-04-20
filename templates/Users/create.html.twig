@@ -1,0 +1,122 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block body_classes %}ea index ea-content-width-normal ea-sidebar-width-normal{% endblock %}
+
+{% block page_title %}{{ ('app.admin.user.' ~ type ~ '.page_title') | trans }}{% endblock %}
+
+{% block page_actions %}
+  <button class="action-saveAndReturn btn btn-primary action-save" type="submit" form="{{ 'form_'~type~'_user' }}">
+    <span class="btn-label">{{ 'app.admin.user.submit' | trans }}</span>
+  </button>
+{% endblock %}
+
+{% block head_javascript %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('admin') }}
+{% endblock head_javascript %}
+
+{% block head_stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('admin') }}
+  <style type="text/css">
+      .ms-options-wrap {
+          position: relative;
+      }
+
+      .ms-options-wrap .optgroup label {
+          text-align: left;
+      }
+
+      .ms-options-wrap > button:focus, .ms-options-wrap > button {
+          white-space: normal;
+      }
+  </style>
+{% endblock head_stylesheets %}
+
+{% block main %}
+  {{ form_start(form, {'attr': {'id': 'form_'~type~'_user'}}) }}
+  <div class="content-panel">
+    <div class="content-panel-body without-header {{ not has_page_footer ? 'without-footer' }}">
+        <div class="field-text form-group">
+          {{ form_label(form.email, null, { label_attr: {class: 'form-control-label'} }) }}
+          <div class="form-widget">
+            {{ form_widget(form.email) }}
+          </div>
+        </div>
+        <div class="field-text form-group">
+          {{ form_label(form.firstName, null, { label_attr: {class: 'form-control-label'} }) }}
+          <div class="form-widget">
+            {{ form_widget(form.firstName) }}
+          </div>
+        </div>
+        <div class="field-text form-group">
+          {{ form_label(form.lastName, null, { label_attr: {class: 'form-control-label'} }) }}
+          <div class="form-widget">
+            {{ form_widget(form.lastName) }}
+          </div>
+        </div>
+        <div class="field-text form-group" id="school-input">
+          {{ form_label(form.schools, null, { label_attr: {class: 'form-control-label'} }) }}
+          <div class="form-widget">
+            {{ form_widget(form.schools) }}
+          </div>
+        </div>
+        <div class="field-select form-group">
+          {{ form_label(form.externalRole) }}
+          {{ form_widget(form.externalRole) }}
+        </div>
+      </div>
+
+      {% if has_page_footer %}
+        <section class="content-panel-footer without-padding">
+          {{ block('page_footer') }}
+        </section>
+      {% endif %}
+    </div>
+  {{ form_end(form) }}
+{% endblock %}
+
+{% block body_javascript %}
+  {{ parent() }}
+  <script type="text/javascript">
+      $(function () {
+          $('.action-delete').on('click', function (e) {
+              e.preventDefault();
+              const formAction = $(this).attr('formaction');
+
+              $('#modal-delete').modal({backdrop: true, keyboard: true})
+                  .off('click', '#modal-delete-button')
+                  .on('click', '#modal-delete-button', function () {
+                      let deleteForm = $('#delete-form');
+                      deleteForm.attr('action', formAction);
+                      deleteForm.submit();
+                  });
+          });
+
+      });
+
+      let radioButtons = $('input[name="user[externalRole]"]');
+      let schoolInputDiv = $('#school-input');
+      userTypeUpdated(radioButtons);
+
+      radioButtons.change(function () {
+          userTypeUpdated(this);
+      });
+
+      function userTypeUpdated(radioButton) {
+          if (radioButton.value === '{{ constant('App\\Model\\Role::ROLE_SUPER_ADMIN') }}') {
+              schoolInputDiv.hide();
+          } else {
+              schoolInputDiv.show();
+          }
+      }
+  </script>
+
+  {% if app.request.get('query') is not empty %}
+    <script type="text/javascript">
+        const search_query = "{{ ea.search.query|default('')|e('js') }}";
+        // the original query is prepended to allow matching exact phrases in addition to single words
+        $('#main').find('table tbody td:not(.actions)').highlight($.merge([search_query], search_query.split(' ')));
+    </script>
+  {% endif %}
+{% endblock %}

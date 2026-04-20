@@ -1,0 +1,21 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}{{ 'app.admin.export.index.page_title' | trans }}{% endblock %}
+
+{% block main %}
+  {% set yearId = constant('App\\Controller\\Admin\\ExportController::YEAR_ID') %}
+
+  <div class="content-panel">
+    <div class="content-panel-body with-rounded-top with-min-h-250 {{ not has_page_footer ? 'without-footer' }}">
+
+      {% for schoolYear in schoolYears %}
+        <a href="{{ path('export_kiesjeschool', {yearId: schoolYear.id}) }}" class="btn btn-primary">
+          {{ schoolYear.startYear }} - {{ schoolYear.endYear }}
+        </a>
+      {% else %}
+        <p>{{ 'app.admin.export.index.no_school_years' | trans }}</p>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+hosts:
+    production:
+        hostname: ssh057.webhosting.be
+        port: 22
+        remote_user: naarschoolinvlaanderenbe
+        http-user: naarschoolinvlaanderenbe
+        forward_agent: true
+        deploy_path: /data/sites/web/naarschoolinvlaanderenbe/deploy
+        keep_releases: 3
+        env:
+            APP_ENV: prod
+        branch: master
+        stage: production
+
+    staging:
+        hostname: ssh057.webhosting.be
+        port: 22
+        remote_user: naarschoolinvlaanderenbe
+        http-user: naarschoolinvlaanderenbe
+        forward_agent: true
+        deploy_path: /data/sites/web/naarschoolinvlaanderenbe/subsites/naarschoolinvlaanderen.be.staging.webfolks.be/deploy
+        keep_releases: 3
+        env:
+            APP_ENV: staging
+        branch: YSD-17908-course-synchronization
+        stage: staging

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    mysql:
+        image: mysql:5.7
+        platform: linux/amd64
+        ports: [3306]
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: dev
+            MYSQL_DATABASE: nsiv
+        labels:
+            com.symfony.server.service-prefix: 'DATABASE'
+
+volumes:
+  mysql-data:

@@ -1,0 +1,14 @@
+.is-invalid {
+    box-shadow: 0 0 0 1px red, 0 0 0 1px rgba(6, 122, 184, 0), 0 0 0 2px rgba(6, 122, 184, 0), 0 1px 1px rgba(0, 0, 0, .08) !important;
+}
+
+.ghost {
+    display: flex;
+    padding: 0 20px 15px 0;
+    height: 45px;
+    background-color: #e9ebee;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    align-items: center;
+}

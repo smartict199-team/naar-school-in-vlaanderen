@@ -1,0 +1,24 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if entity.instance.field in constant('App\\Model\\AuditLogFields::BOOLEAN_FIELDS') %}
+    {% if field.value == 1 %}
+        {% set value = (('app.admin.audit_logs.index.value.bool.1') | trans) %}
+    {% else %}
+        {% set value = (('app.admin.audit_logs.index.value.bool.0') | trans) %}
+    {% endif %}
+{% else %}
+    {% set value = field.formattedValue %}
+{% endif %}
+
+ {% set render_as_html = field.customOptions.get('renderAsHtml') %}
+    {% if ea.crud.currentAction == 'detail' %}
+        <span title="{{ field.value }}">
+        {{ render_as_html ? value|raw|nl2br : value|nl2br }}
+    </span>
+    {% else %}
+        <span title="{{ field.value }}">
+        {{ render_as_html ? value|raw : value|striptags }}
+    </span>
+    {% endif %}
+

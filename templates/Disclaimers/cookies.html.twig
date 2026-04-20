@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'app.index.title' | trans }}{% endblock %}
+
+{% block stylesheets %}
+  {{ encore_entry_link_tags('base') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ encore_entry_script_tags('base') }}
+{% endblock %}
+
+{% block main_classes %}container{% endblock %}
+
+{% block body %}
+  <a href="{{ path('index') }}"> 
+    <img class="mb-4" src="{{ asset('build/logo-nsiv.svg') }}" height="50" alt="Logo NSIV">
+  </a>
+  <h2 id="cookie-statement">
+    Cookie statement
+  </h2>
+
+  <p> Tijdens een bezoek aan de website worden cookies op de harde schijf van je computer of mobiel toestel
+    geplaatst. </p>
+
+  <h2 id="wat-zijn-cookies">
+    Wat zijn cookies?
+  </h2>
+
+  <p> Een cookie is een klein tekstbestand dat wij op je computer of mobiel toestel opslaan wanneer u de website
+    bezoekt. </p>
+  <p> Cookies worden meestal gebruikt om websites optimaal te laten functioneren, om de handelingen van de
+    bezoekers van de website bij te houden, om login-gegevens te bewaren, etc. Er zijn verschillende soorten
+    cookies die onderscheiden kunnen worden naar gelang hun oorsprong, functie en levensduur. </p>
+  <p> Meer over cookies kan je lezen op <a href="https://www.aboutcookies.org">www.aboutcookies.org</a>. </p>
+
+  <h2 id="welke-cookies-gebruiken-wij-en-waarom">
+    Welke cookies gebruiken wij en waarom?
+  </h2>
+
+  <p> Wij gebruiken in eerste instantie “First party cookies”. Dat zijn technische cookies die gebruikt worden
+    door de website en die tot doel hebben de site optimaal te laten functioneren. Voorbeeld: instellingen die
+    de gebruiker bij de vorige bezoeken aan de site heeft gedaan, of nog: een vooraf ingevuld formulier met data
+    dat de gebruiker tijdens vorige bezoeken heeft gedaan. </p>
+  <p> Wij gebruiken verder nog een aantal “Third party cookies”. Dat zijn technische cookies die gebruikt worden
+    door derde partijen en die tot doel hebben ons te informeren over je browsing gedrag en over je technische
+    gegevens. </p>
+
+  <h2 id="welke-soorten-cookies-zijn-er-en-waarvoor-dienen-ze">
+    Welke soorten cookies zijn er en waarvoor dienen ze?
+  </h2>
+
+  <p> We kunnen de cookies die wij gebruiken in vier categorieën opdelen: </p>
+  <p><u>1. Essentiële cookies</u><br> Essentiële cookies zijn cookies die noodzakelijk zijn om een website te
+    laten functioneren. Ze zorgen ervoor dat basisfuncties zoals paginanavigatie, beveiliging en laadtijd kunnen
+    werken. </p>
+  <p><u>2. Functionele cookies</u><br> Functionele cookies zijn cookies die informatie over je keuzes en
+    voorkeuren op een website bijhouden. Zo onthouden ze bijvoorbeeld je taalkeuze, inloggegevens of de regio
+    waarin je woont. </p>
+  <p><u>3. Analytische cookies</u><br> Analytische cookies verzamelen informatie over het gedrag van
+    websitebezoekers en de prestaties van de website. Aan de hand van de resultaten kan de website verbeterd
+    worden en krijgen bezoekers een betere gebruikservaring. </p>
+  <p><u>4. Marketing cookies</u><br> Marketing cookies volgen het surfgedrag van websitebezoekers en stellen op
+    basis daarvan een gebruikersprofiel samen. Dat profiel wordt gebruikt om de surfervaring persoonlijker te
+    maken en bijvoorbeeld gepersonaliseerde aanbiedingen, advertenties, nieuwsbrieven en dergelijke te tonen die
+    overeenstemmen met je interesses. </p>
+
+  <h2 id="welke-cookies-worden-er-geplaatst-via-onze-site">
+    Welke cookies worden er geplaatst via onze site?
+  </h2>
+
+  <script id="CookieDeclaration" src="https://consent.cookiebot.com/981b2327-286f-4d25-a477-4544c9d22ca7/cd.js" type="text/javascript" async></script>
+
+  <h2 id="hoe-kan-je-de-cookies-uitschakelen">
+    Hoe kan je de cookies uitschakelen?
+  </h2>
+
+  <p> Je kan de cookies uitschakelen, verwijderen of de instellingen voor cookies aanpassen, al zal onze website
+    in dat geval niet optimaal meer kunnen werken. Wil je de instellingen voor cookies toch aanpassen? Dan kan
+    je de help functie van je browser gebruiken om dit te wijzigen. </p>
+  <ul>
+    <li>Internet Explorer: <a href="https://support.microsoft.com/nl-nl/help/17442/windows-internet-explorer-delete-manage-cookies">https://support.microsoft.com/nl-nl/help/17442/windows-internet-explorer-delete-manage-cookies</a>
+    </li>
+    <li>Chrome: <a href="https://support.google.com/chrome/answer/95647?hl=nl7">https://support.google.com/chrome/answer/95647?hl=nl7</a>
+    </li>
+    <li>Firefox: <a href="https://support.mozilla.org/nl/kb/cookies-in-en-uitschakelen-websites-voorkeuren">https://support.mozilla.org/nl/kb/cookies-in-en-uitschakelen-websites-voorkeuren</a>
+    </li>
+    <li>Safari: <a href="https://support.apple.com/kb/PH5042">https://support.apple.com/kb/PH5042</a></li>
+  </ul>
+{% endblock %}
+
+{% block footer %}
+  <footer class="text-muted">
+    <div class="container">
+      <p>
+        {% include('includes/footer.html.twig') %}
+      </p>
+    </div>
+  </footer>
+{% endblock %}

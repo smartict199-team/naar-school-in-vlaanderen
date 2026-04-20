@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Model;
+
+class Role
+{
+    public const ROLE_SCHOOL_YEAR_ADMIN = 'ROLE_SCHOOL_YEAR_ADMIN';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_GROUP_ADMIN = 'ROLE_GROUP_ADMIN';
+    public const ROLE_SCHOOL_ADMIN = 'ROLE_SCHOOL_ADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_USER_ADMIN = 'ROLE_USER_ADMIN';
+
+    // Sub roles, see security.yaml
+    public const ROLE_EDIT_SCHOOL = 'ROLE_EDIT_SCHOOL';
+    public const ROLE_EDIT_SCHOOL_EDUCATIONS = 'ROLE_EDIT_SCHOOL_EDUCATIONS';
+    public const ROLE_EDIT_SCHOOL_EDUCATION_NUMBERS = 'ROLE_EDIT_SCHOOL_EDUCATION_NUMBERS';
+    public const ROLE_IMPORT_SCHOOL_EDUCATIONS = 'ROLE_IMPORT_SCHOOL_EDUCATIONS';
+    public const ROLE_EXPORT_SCHOOL_EDUCATION_NUMBERS = 'ROLE_EXPORT_SCHOOL_EDUCATION_NUMBERS';
+    public const ROLE_DELETE_SCHOOL = 'ROLE_DELETE_SCHOOL';
+    public const ROLE_ADD_SCHOOL = 'ROLE_ADD_SCHOOL';
+
+    public const ROLE_EDIT_SCHOOL_YEAR = 'ROLE_EDIT_SCHOOL_YEAR';
+    public const ROLE_ADD_SCHOOL_YEAR = 'ROLE_ADD_SCHOOL';
+
+    public const ROLE_DELETE_USER = 'ROLE_DELETE_USER';
+    public const ROLE_EDIT_USER = 'ROLE_EDIT_USER';
+    public const ROLE_CREATE_USER = 'ROLE_CREATE_USER';
+}

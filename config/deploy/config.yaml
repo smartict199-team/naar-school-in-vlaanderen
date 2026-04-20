@@ -1,0 +1,66 @@
+import: recipe/symfony.php
+
+config:
+    application: Naar school in vlaanderen
+    repository: git@github.com:yappabe/naarschoolinvlaanderen.git
+
+    keep_releases: 3
+    copy_dirs: [vendor]
+    shared_dirs: [var/log]
+    shared_files: [.env.local]
+    writable_dirs: [var/log, var/cache]
+
+    default_timeout: 400
+    writable_mode: chmod
+    writable_use_sudo: false
+    default_stage: production
+
+    docker_bin: /usr/bin/docker
+    php_container_alias: php
+    docker_compose_bin: /usr/local/bin/docker-compose
+    composer_options: --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress --no-interaction --ignore-platform-reqs --no-scripts --no-plugins
+
+    crontab_repo_path: 'etc/crontab'
+    crontab_remote_path: '../.crontab'
+    index_file: 'index_combell.php'
+tasks:
+    deploy:
+        - deploy:info
+        - deploy:lock
+        - deploy:release
+        - deploy:update_code
+        - deploy:clear_paths
+        - deploy:shared
+        - deploy:copy_dirs
+        - deploy:vendors
+        - database:migrate
+        - deploy:cache:clear
+        #        - deploy:cache:warmup
+        - deploy:writable
+        - deploy:assets:install
+        - combell:copy_index
+        - combell:rsync_public_to_www
+        - combell:install_crontab
+        - deploy:symlink
+        - combell:reload_php
+        - deploy:unlock
+        - deploy:cleanup
+
+    deploy:staging:
+        - deploy:info
+        - deploy:lock
+        - deploy:release
+        - deploy:update_code
+        - deploy:clear_paths
+        - deploy:shared
+        - deploy:copy_dirs
+        - deploy:vendors
+        # - database:migrate
+        - deploy:cache:clear
+        - deploy:writable
+        - deploy:assets:install
+        - combell:basic_auth
+        - deploy:symlink
+        - combell:reload_php
+        - deploy:unlock
+        - deploy:cleanup

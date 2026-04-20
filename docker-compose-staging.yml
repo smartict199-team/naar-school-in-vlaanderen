@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+    nginx:
+        image: yappabe/nginx:1.9
+        network_mode: bridge
+        volumes:
+            - ./:/var/www/app
+        depends_on:
+            - php
+        links:
+            - php
+        environment:
+            VIRTUAL_HOST: naarschoolinvlaanderen.staging.webfolks.be
+            DOCUMENT_ROOT: /var/www/app/public
+            INDEX_FILE: index.php
+            PHP_FPM_SOCKET: php:9000
+
+    mysql:
+        image: yappabe/mysql:5.7
+        network_mode: bridge
+        environment:
+            DNSDOCK_ALIAS: mysql.nsiv.staging.webfolks.be
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: dev
+            MYSQL_DATABASE: nsiv
+
+    php:
+        image: yappabe/php:7.4
+        network_mode: bridge
+        volumes:
+            - ./:/var/www/app
+            - vendor:/vendor
+            - ~/.ssh/id_rsa:/root/.ssh/id_rsa:ro
+            - ~/.composer:/root/.composer
+            - /tmpfs
+        working_dir: /var/www/app
+        environment:
+            PHP_FPM_USER: root
+            APP_ENV: staging
+            APP_DEBUG: "false"
+        depends_on:
+            - mysql
+        links:
+            - mysql
+
+volumes:
+    mysql-data:
+    vendor:

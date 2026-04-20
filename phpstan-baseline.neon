@@ -1,0 +1,337 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method object\\:\\:setController\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/DashboardController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\Admin\\\\DashboardController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/Admin/DashboardController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:findActiveBackendSchoolYears\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/ExportController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:findAll\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/ExportController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/ExportController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:transform\\(\\)\\.$#"
+			count: 2
+			path: src/Controller/Admin/ExportController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:generate\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/ExportController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\Admin\\\\SchoolCrudController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:find\\(\\)\\.$#"
+			count: 4
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:transform\\(\\)\\.$#"
+			count: 3
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:saveEducations\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:set\\(\\)\\.$#"
+			count: 11
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:findByLevelsTypes\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:findByLevelsEstablishmentNumbers\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:trans\\(\\)\\.$#"
+			count: 5
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:generate\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:saveNumbers\\(\\)\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:findActiveBackendSchoolYears\\(\\)\\.$#"
+			count: 2
+			path: src/Controller/Admin/SchoolCrudController.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\Admin\\\\SchoolYearCrudController\\:\\:getSubscribedServices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Controller/Admin/SchoolYearCrudController.php
+
+		-
+			message: "#^Parameter \\#1 \\$year of method App\\\\Entity\\\\SchoolEducation\\:\\:setYear\\(\\) expects App\\\\Entity\\\\SchoolYear\\|null, object given\\.$#"
+			count: 1
+			path: src/DataFixtures/SchoolEducationsFixtures.php
+
+		-
+			message: "#^Parameter \\#1 \\$years of method App\\\\Entity\\\\SchoolGrade\\:\\:setYears\\(\\) expects Doctrine\\\\Common\\\\Collections\\\\Collection\\<\\(int\\|string\\), App\\\\Entity\\\\SchoolYear\\>, Doctrine\\\\Common\\\\Collections\\\\ArrayCollection\\<int, object\\> given\\.$#"
+			count: 1
+			path: src/DataFixtures/SchoolGradesFixtures.php
+
+		-
+			message: "#^Parameter \\#1 \\$schoolLevel of method App\\\\Entity\\\\SchoolLevelFormType\\:\\:setSchoolLevel\\(\\) expects App\\\\Entity\\\\SchoolLevel\\|null, object given\\.$#"
+			count: 1
+			path: src/DataFixtures/SchoolLevelFormTypesFixtures.php
+
+		-
+			message: "#^Parameter \\#1 \\$schoolFormType of method App\\\\Entity\\\\SchoolLevelFormType\\:\\:setSchoolFormType\\(\\) expects App\\\\Entity\\\\SchoolFormType\\|null, object given\\.$#"
+			count: 1
+			path: src/DataFixtures/SchoolLevelFormTypesFixtures.php
+
+		-
+			message: "#^Static property App\\\\DataFixtures\\\\SchoolOfficialEducationsFixtures\\:\\:\\$secondaryEducationMap \\(array\\<string, array\\<string, string\\>\\>\\) does not accept default value of type array\\<int\\|string, array\\<int\\|string, string\\>\\>\\.$#"
+			count: 1
+			path: src/DataFixtures/SchoolOfficialEducationsFixtures.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\School\\:\\:getSchoolLevelTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/School.php
+
+		-
+			message: "#^Method App\\\\Entity\\\\School\\:\\:getSchoolLevelLevels\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/School.php
+
+		-
+			message: "#^Parameter \\#1 \\$levelGrades of method App\\\\Entity\\\\SchoolGrade\\:\\:setLevelGrades\\(\\) expects Doctrine\\\\Common\\\\Collections\\\\Collection\\<\\(int\\|string\\), App\\\\Entity\\\\SchoolLevelGrade\\>, Doctrine\\\\Common\\\\Collections\\\\ArrayCollection\\<int, App\\\\Entity\\\\SchoolLevelGrade\\> given\\.$#"
+			count: 1
+			path: src/EventSubscriber/CreatePrePrimaryEducationGradesEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\PrePrimaryFormEventSubscriber\\:\\:addSchoolTypeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/PrePrimaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\PrePrimaryFormEventSubscriber\\:\\:addSchoolGradeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/PrePrimaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\PrimaryFormEventSubscriber\\:\\:addSchoolTypeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/PrimaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\PrimaryFormEventSubscriber\\:\\:addSchoolGradeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/PrimaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\SecondaryFormEventSubscriber\\:\\:addSchoolGradeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/SecondaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\SecondaryFormEventSubscriber\\:\\:addPhaseField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/SecondaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\SecondaryFormEventSubscriber\\:\\:addSchoolTypeField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/SecondaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\SecondaryFormEventSubscriber\\:\\:addSchoolLevelField\\(\\) has parameter \\$filterForm with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/SecondaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\EventSubscriber\\\\SecondaryFormEventSubscriber\\:\\:addEducationField\\(\\) has parameter \\$form with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/EventSubscriber/SecondaryFormEventSubscriber.php
+
+		-
+			message: "#^Method App\\\\Form\\\\FilterFormType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/FilterFormType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\FilterFormType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/FilterFormType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationLevelType\\:\\:buildView\\(\\) has parameter \\$form with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationLevelType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationLevelType\\:\\:buildView\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationLevelType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationLevelsType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationLevelsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationLevelsType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationLevelsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationType\\:\\:buildView\\(\\) has parameter \\$form with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationType\\:\\:buildView\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationsType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolEducationsType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolEducationsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersLevelType\\:\\:buildView\\(\\) has parameter \\$form with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersLevelType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersLevelType\\:\\:buildView\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersLevelType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersLevelsType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersLevelsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersLevelsType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersLevelsType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersOverviewType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersOverviewType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersOverviewType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersOverviewType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersType\\:\\:buildView\\(\\) has parameter \\$form with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormInterface\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\School\\\\SchoolNumbersType\\:\\:buildView\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/School/SchoolNumbersType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\User\\\\UserType\\:\\:buildForm\\(\\) has parameter \\$builder with no value type specified in iterable type Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: src/Form/User/UserType.php
+
+		-
+			message: "#^Method App\\\\Form\\\\User\\\\UserType\\:\\:buildForm\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Form/User/UserType.php
+
+		-
+			message: "#^Cannot access offset 'client_id' on array\\|ArrayObject\\|bool\\|float\\|int\\|string\\.$#"
+			count: 2
+			path: src/Service/Auth0/Client.php
+
+		-
+			message: "#^Method App\\\\Service\\\\Auth0\\\\UserRepository\\:\\:findAll\\(\\) should return array\\<App\\\\Model\\\\Response\\\\UserResponse\\>\\|null but returns App\\\\Model\\\\Response\\\\ResponseInterface\\|array\\<App\\\\Model\\\\Response\\\\ResponseInterface\\>\\|null\\.$#"
+			count: 1
+			path: src/Service/Auth0/UserRepository.php
+
+		-
+			message: "#^Method App\\\\Service\\\\Auth0\\\\UserRepository\\:\\:findByQuery\\(\\) should return array\\<App\\\\Model\\\\Response\\\\UserResponse\\>\\|null but returns App\\\\Model\\\\Response\\\\ResponseInterface\\|array\\<App\\\\Model\\\\Response\\\\ResponseInterface\\>\\|null\\.$#"
+			count: 1
+			path: src/Service/Auth0/UserRepository.php
+
+		-
+			message: "#^Method App\\\\Service\\\\Auth0\\\\UserRepository\\:\\:findByPage\\(\\) should return array\\<App\\\\Model\\\\Response\\\\UserResponse\\>\\|null but returns App\\\\Model\\\\Response\\\\ResponseInterface\\|array\\<App\\\\Model\\\\Response\\\\ResponseInterface\\>\\|null\\.$#"
+			count: 1
+			path: src/Service/Auth0/UserRepository.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
+			count: 1
+			path: src/Service/Transformer/UserTransformer.php
+
+		-
+			message: "#^Parameter \\#1 \\$schools of method App\\\\Service\\\\Transformer\\\\UserTransformer\\:\\:getSchoolMetaData\\(\\) expects Doctrine\\\\Common\\\\Collections\\\\Collection\\<\\(int\\|string\\), App\\\\Entity\\\\School\\>, Doctrine\\\\Common\\\\Collections\\\\Collection\\<int, App\\\\Entity\\\\School\\> given\\.$#"
+			count: 1
+			path: src/Service/Transformer/UserTransformer.php
+

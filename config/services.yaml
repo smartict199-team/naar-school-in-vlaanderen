@@ -1,0 +1,93 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    owv_api_key: '%env(OWV_API_KEY)%'
+    owv_url: '%env(OWV_URL)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    App\Service\EducationsAPIService:
+        arguments:
+            $url: '%owv_url%'
+            $apiKey: '%owv_api_key%'
+
+    App\Service\SchoolDataAPIService:
+        arguments:
+            $url: '%owv_url%'
+            $apiKey: '%owv_api_key%'
+
+    App\Service\Client\Auth0ClientInterface:
+        class: GuzzleHttp\Client
+        arguments:
+            - base_uri: '%env(resolve:AUTH0_DOMAIN)%'
+
+    App\Service\Auth0\Client:
+        arguments:
+            $clientToken: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_ID)%'
+            $secret: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_SECRET)%'
+            $audience: '%env(resolve:AUTH0_MANAGEMENT_AUDIENCE)%'
+            $client: '@App\Service\Client\Auth0ClientInterface'
+
+    App\EventSubscriber\LogoutEventSubscriber:
+        arguments:
+            $auth0Domain: '%env(resolve:AUTH0_DOMAIN)%'
+        tags:
+            -   name: kernel.event_subscriber
+                dispatcher: security.event_dispatcher.main
+
+    App\EventSubscriber\SchoolEducationChangeLogEventSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    App\EventSubscriber\WebhookEventSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    App\Service\Search\Formatter\ReceptionEducationFormatter:
+        tags:
+            - { name: 'app.search.formatter' }
+
+    App\Service\Search\Formatter\SearchFormatter:
+        tags:
+            - { name: 'app.search.formatter' }
+
+    App\Service\Search\SearchResultFormatter:
+        arguments:
+            - !tagged_iterator app.search.formatter
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
+
+
+    App\EventSubscriber\Api\ApiLogEventListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }

@@ -1,0 +1,95 @@
+{% macro render(results) %}
+  <div class="card shadow card-school w-100 mb-5 mt-5">
+    {% for result in results %}
+      {% set school = result.school %}
+      <div class="row p-4">
+        <div class="col-12">
+          <h4 class="mt-2 mb-2">{{ school.name }}</h4>
+          <p class="mb-2">{{ ('app.admin.schools.general.types.' ~ school.type) | trans }}
+            - {{ ('app.admin.schools.general.levels.' ~ school.level) | trans }}</p>
+        </div>
+        {% if school.address %}
+          <div class="col-md-4">
+            <p class="mb-0">{{ school.address }} <br> {{ school.postalCode }} {{ school.city }}</p>
+          </div>
+        {% endif %}
+        {% if school.email or school.phoneNumber %}
+          <div class="col-md-{% if school.website %}4{% else %}8{% endif %}">
+            {% if school.email %}<p class="mb-0"><a href="mailto:{{ school.email }}">{{ school.email }}</a></p>{% endif %}
+            {% if school.phoneNumber %}<p class="mb-0"><a href="tel:{{ school.phoneNumber }}">{{ school.phoneNumber }}</a></p>{% endif %}
+          </div>
+        {% endif %}
+        {% if school.website %}
+          <div class="col-md-{% if school.email or school.phoneNumber %}4{% else %}8{% endif %}">
+            <p><a href="{{ school.website | trim(' ') }}" target="_blank"><i class="fas fa-link pr-2 d-inline"></i>{{ school.website | replace({'https://www.': '', 'https://': '', 'http://': '', 'http://www.': ''}) | trim('/ ', 'right') }}</a></p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="table-responsive-md">
+        <table class="table table-striped mb-0">
+          <tbody>
+          {% for capacity in result.capacities %}
+            <tr style="border: 1px solid #dee2e6;">
+              <td class="pl-4">
+                <strong>{{ capacity.title }}</strong> <br/>
+                {{ capacity.subTitle }}
+              </td>
+              {% if capacity.isCapacityReached %}
+                <td class="pr-4 text-right">
+                  <span class="scholen-item-badge badge badge-danger">{{ 'app.index.results.result.no_capacity' | trans }} <i class="fas fa-info-circle"></i></span>
+                  {% if capacity.updatedAt %}
+                    <small class="d-block text-muted mt-2">
+                      {{ 'app.index.results.result.capacity_reached_at' | trans }} {{ capacity.updatedAt|date('d/m/Y H:i:s') }}
+                    </small>
+                  {% endif %}
+                </td>
+              {% elseif capacity.capacity == 0 %}
+                <td class="pr-4 text-right">
+                  <span class="scholen-item-badge badge badge-success">{{ 'app.index.results.result.unknown_capacity' | trans }}</span>
+                </td>
+              {% elseif capacity.capacity < 0 %}
+                <td class="pr-4 text-right">
+                  <span class="scholen-item-badge badge badge-danger">0 {{ 'app.index.results.result.capacity_label' | trans }}</span>
+                </td>
+              {% else %}
+                <td class="pr-4 text-right">
+                  {% if capacity.capacity == 1 %}
+                    <span class="scholen-item-badge badge badge-success">{{ capacity.capacity }} {{ 'app.index.results.result.capacity_label_singular' | trans }}</span>
+                  {% else %}
+                    <span class="scholen-item-badge badge badge-success">{{ capacity.capacity }} {{ 'app.index.results.result.capacity_label' | trans }}</span>
+                  {% endif %}
+                  {% if capacity.underrepresentedStudentSeats %}
+                    {% for underrepresentedStudentSeat in capacity.underrepresentedStudentSeats %}
+                    <small class="d-block mt-1">
+                      {{ 'app.index.results.result.underrepresented_number' | trans({ '%count%': underrepresentedStudentSeat.seats|round, '%group%': underrepresentedStudentSeat.description }) }}
+                    </small>
+                    {% endfor %}
+                  {% elseif capacity.indicatorStudentSeats %}
+                    <small class="d-block mt-1">
+                      {% if capacity.indicatorStudentSeats|round == 1 %}
+                        {{ 'app.index.results.result.indicator_number' | trans({ '%capacity%': capacity.indicatorStudentSeats|round }) }}
+                      {% else %}
+                        {{ 'app.index.results.result.indicator_numbers' | trans({ '%capacity%': capacity.indicatorStudentSeats|round }) }}
+                      {% endif %}
+
+                      <a href="#" data-toggle="tooltip"  data-trigger="hover focus click" title="{{ 'app.index.results.result.indicator_tooltip' | trans }}">
+                        <i class="fas fa-info-circle fa-lg"></i>
+                      </a>
+                    </small>
+                  {% endif %}
+                  {% if capacity.updatedAt %}
+                    <small class="d-block text-muted mt-2">
+                      {{ 'app.index.results.result.updated_at' | trans }} {{ capacity.updatedAt|date('d/m/Y H:i:s') }}
+                    </small>
+                  {% endif %}
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    {% endfor %}
+  </div>
+{% endmacro %}
