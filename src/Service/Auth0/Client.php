@@ -16,14 +16,16 @@ class Client
 {
     private \GuzzleHttp\Client $client;
     private string $clientToken;
+    private string $applicationClientId;
     private string $secret;
     private string $audience;
     private SerializerInterface $serializer;
 
-    public function __construct(string $clientToken, string $secret, string $audience, \GuzzleHttp\Client $client, SerializerInterface $serializer)
+    public function __construct(string $clientToken, string $applicationClientId, string $secret, string $audience, \GuzzleHttp\Client $client, SerializerInterface $serializer)
     {
         $this->client = $client;
         $this->clientToken = $clientToken;
+        $this->applicationClientId = $applicationClientId;
         $this->secret = $secret;
         $this->serializer = $serializer;
         $this->audience = $audience;
@@ -78,7 +80,7 @@ class Client
         }
 
         if ($requiresClientId) {
-            $options['body']['client_id'] = $this->clientToken;
+            $options['body']['client_id'] = $this->applicationClientId;
         }
 
         $options['body'] = $serializer->serialize($options['body'], 'json');

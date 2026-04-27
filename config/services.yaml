@@ -49,6 +49,7 @@ services:
     App\Service\Auth0\Client:
         arguments:
             $clientToken: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_ID)%'
+            $applicationClientId: '%env(resolve:AUTH0_CLIENT_ID)%'
             $secret: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_SECRET)%'
             $audience: '%env(resolve:AUTH0_MANAGEMENT_AUDIENCE)%'
             $client: '@App\Service\Client\Auth0ClientInterface'
