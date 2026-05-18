@@ -86,7 +86,7 @@ class SchoolNumbersType extends AbstractType
             $builder->add('capacityReachedAt', DateTimeType::class, [
                 'label' => 'app.admin.schools.general.capacity_reached_at',
                 'required' => true,
-                'years' => range($year->getStartYear()-1, $year->getEndYear()),
+                'widget' => 'single_text',
                 'attr' => [
                     'class' => 'field-datetime',
                 ],

@@ -176,7 +176,7 @@
           field.addClass('invisible');
       }
 
-      var capacityReachedAtDate = $('.js-capacity-reached-at select');
+      var capacityReachedAtDate = $('.js-capacity-reached-at input[type="datetime-local"]');
       capacityReachedAtDate.on('change', function () {
           setCapacityReachedDate($(this));
       })
@@ -187,23 +187,19 @@
 
       function setCapacityReachedDate(el) {
           var row = el.closest('.form-row')
-          var idPrefix = el.parent().attr('id');
-          var dateFields = ['day', 'month', 'year'];
-          var timeFields = ['hour', 'minute'];
+          var value = el.val(); // Format: YYYY-MM-DDTHH:MM
+          if (!value) return;
 
-          var dateParts = [];
-          dateFields.forEach(function (fieldName) {
-              var value = $('#' + idPrefix + '_date_' + fieldName).val();
-              dateParts.push(value.padStart(2, '0'));
-          });
+          var dateTimeParts = value.split('T');
+          if (dateTimeParts.length !== 2) return;
 
-          var timeParts = [];
-          timeFields.forEach(function (fieldName) {
-              var value = $('#' + idPrefix + '_time_' + fieldName).val();
-              timeParts.push(value.padStart(2, '0'));
-          });
+          var dateParts = dateTimeParts[0].split('-');
+          var timeParts = dateTimeParts[1].split(':');
 
-          row.find('.js-capacity-reached-at-date').text(dateParts.join('/') + ' ' + timeParts.join(':'))
+          var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+          var formattedTime = timeParts[0] + ':' + (timeParts[1] || '00');
+
+          row.find('.js-capacity-reached-at-date').text(formattedDate + ' ' + formattedTime);
       }
 
       var indicatorStudentSeatsPercentageInput = $('.js-indicator-student-seats-percentage input, .js-capacity input');
