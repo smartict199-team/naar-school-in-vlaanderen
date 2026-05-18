@@ -184,6 +184,24 @@ class School
         return $this->website;
     }
 
+    public function getWebsiteUrl(): ?string
+    {
+        $website = trim((string) $this->website);
+        if ('' === $website) {
+            return null;
+        }
+
+        if (null !== parse_url($website, PHP_URL_SCHEME)) {
+            return $website;
+        }
+
+        if (0 === strpos($website, '//')) {
+            return sprintf('https:%s', $website);
+        }
+
+        return sprintf('https://%s', $website);
+    }
+
     public function setWebsite(?string $website): void
     {
         $this->website = $website;

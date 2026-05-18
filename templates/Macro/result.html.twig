@@ -19,9 +19,9 @@
             {% if school.phoneNumber %}<p class="mb-0"><a href="tel:{{ school.phoneNumber }}">{{ school.phoneNumber }}</a></p>{% endif %}
           </div>
         {% endif %}
-        {% if school.website %}
+        {% if school.websiteUrl %}
           <div class="col-md-{% if school.email or school.phoneNumber %}4{% else %}8{% endif %}">
-            <p><a href="{{ school.website | trim(' ') }}" target="_blank"><i class="fas fa-link pr-2 d-inline"></i>{{ school.website | replace({'https://www.': '', 'https://': '', 'http://': '', 'http://www.': ''}) | trim('/ ', 'right') }}</a></p>
+            <p><a href="{{ school.websiteUrl }}" target="_blank"><i class="fas fa-link pr-2 d-inline"></i>{{ school.website | replace({'https://www.': '', 'https://': '', 'http://': '', 'http://www.': ''}) | trim('/ ', 'right') }}</a></p>
           </div>
         {% endif %}
       </div>
