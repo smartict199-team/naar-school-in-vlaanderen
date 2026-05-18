@@ -186,6 +186,23 @@ class School
 
     public function setWebsite(?string $website): void
     {
+        if (null === $website) {
+            $this->website = null;
+
+            return;
+        }
+
+        $website = trim($website);
+        if ('' === $website) {
+            $this->website = null;
+
+            return;
+        }
+
+        if (!preg_match('/^(https?:)?\/\//i', $website)) {
+            $website = 'https://' . $website;
+        }
+
         $this->website = $website;
     }
 
