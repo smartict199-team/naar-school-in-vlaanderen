@@ -51,6 +51,7 @@ services:
             $clientToken: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_ID)%'
             $secret: '%env(resolve:AUTH0_MANAGEMENT_CLIENT_SECRET)%'
             $audience: '%env(resolve:AUTH0_MANAGEMENT_AUDIENCE)%'
+            $passwordResetClientToken: '%env(resolve:AUTH0_CLIENT_ID)%'
             $client: '@App\Service\Client\Auth0ClientInterface'
 
     App\EventSubscriber\LogoutEventSubscriber:
